@@ -178,7 +178,7 @@ function admin_config_easy_social(){
     $form['override_settings']['easysocial_settings_type_' . $type] = array(
      '#type' => 'fieldset',
      '#title' => t('Custom Settings for %type', array('%type' => $typeobj->name)),
-     '#collapsible' => FALSE,
+     '#collapsible' => TRUE,
      '#collapsed' => TRUE,
     );
 
