@@ -134,7 +134,7 @@ function admin_config_easy_social(){
   $form['global_settings']['twitter_global_data'] = array(
     '#type' => 'fieldset',
     '#title' => t('Twitter Info'),
-    '#collapsible' => FALSE,
+    '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
   
@@ -176,6 +176,8 @@ function admin_config_easy_social(){
   // sometimes when dealing with feature-defined content types they appear out of order
   // since this is an admin page we prefer organization over performance so go ahead and sort it
   ksort($node_types);
+  
+//  krumo($node_types);die;
      
   foreach ($node_types as $type => $typeobj) {
 
