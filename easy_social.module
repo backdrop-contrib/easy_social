@@ -172,6 +172,10 @@ function admin_config_easy_social(){
   );
   
   $node_types = node_type_get_types();
+
+  // sometimes when dealing with feature-defined content types they appear out of order
+  // since this is an admin page we prefer organization over performance so go ahead and sort it
+  ksort($node_types);
      
   foreach ($node_types as $type => $typeobj) {
 
