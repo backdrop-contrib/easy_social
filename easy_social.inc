@@ -1,4 +1,7 @@
 <?php
+/**
+ * @file Easy Social default widget markup functions
+ */
 
 /**
  * Generate the needed markup for the facebook share link
