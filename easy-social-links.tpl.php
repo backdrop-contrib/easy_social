@@ -1,24 +1,14 @@
 <?php
 /**
- * @file
- * This is the file description for Easy Social module.
+ * @file Easy Social links template
  * 
  * Variables available:
  * - $social_links: Assoc array with my share buttons html markup.
  *
  */
 ?>
- <div id='easysocial-box'>
-  <?php if(isset($social_links['twitter'])): ?>
-  <span class='easysocial-widget-twitter'><?php echo $social_links['twitter']; ?></span>  
-  <?php endif; ?>
-  <?php if(isset($social_links['facebook'])): ?>
-  <span class='easysocial-widget-facebook'><?php echo $social_links['facebook']; ?></span>  
-  <?php endif; ?>
-  <?php if(isset($social_links['googleplus'])): ?>
-  <span class='easysocial-widget-googleplus'><?php echo $social_links['googleplus']; ?></span>  
-  <?php endif; ?>
-  <?php if(isset($social_links['linkedin'])): ?>
-  <span class='easysocial-widget-linkedin'><?php echo $social_links['linkedin']; ?></span>  
-  <?php endif; ?>
-</div>
+<div id="easy_social_box">
+  <?php foreach ($social_links as $name => $markup): ?>
+    <span class="easy_social-widget easy_social-widget-<?php echo $name; ?>"><?php echo $markup; ?></span>
+  <?php endforeach; ?>
+</div><!-- /#easy_social_box -->

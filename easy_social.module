@@ -1,10 +1,10 @@
 <?php
-
 /**
- * @file
- * This is the file description for Easy Social module.
+ * @file Easy social module.
  * 
  */
+
+module_load_include('inc', 'easy_social');
 
 /**
  * Implements hook_permission().
