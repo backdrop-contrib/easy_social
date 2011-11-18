@@ -4,8 +4,12 @@ description = "Simple module that add most common share buttons to nodes"
 ; Core version
 core = 7.x
 
+; Module version
+version = 7.x-2.0-dev
+
 ; Loadable code files
 files[] = easy_social.module
+files[] = easy_social.wigets.inc
 
 ; Module dependencies
 dependencies[] = variable
