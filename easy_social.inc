@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file Easy Social default widget markup functions
  */
@@ -10,8 +11,8 @@
  * @param $data Actually not used
  * @return the html markup
  */
-function _easysocial_widget_facebook_markup($url, $type, $data = NULL, $lang = 'en_US'){
-  if($type == 0){
+function _easysocial_widget_facebook_markup($url, $type, $data = NULL, $lang = 'en_US') {
+  if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
     $type_box = 'button_count';
     $markup = <<<FB
       <iframe class="fb-widget" 
@@ -21,7 +22,8 @@ function _easysocial_widget_facebook_markup($url, $type, $data = NULL, $lang = '
       style="border:none; overflow:hidden; width:87px; height:21px;" 
       allowTransparency="true"></iframe>
 FB;
-  } else {
+  }
+  else {
     $type_box = 'box_count';
     $markup = <<<FB
       <iframe class="fb-widget" 
@@ -42,12 +44,12 @@ FB;
  * @param $data Actually not used
  * @return the html markup
  */
-function _easysocial_widget_googleplus_markup($url, $type, $data = NULL, $lang = 'en_US'){
-  $type = ($type == 0) ? 'medium' : 'tall';
+function _easysocial_widget_googleplus_markup($url, $type, $data = NULL, $lang = 'en_US') {
+  $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
   $markup = <<<GP
-    <g:plusone size="{$type}" href="{$url}"></g:plusone>
+<g:plusone size="{$type}" href="{$url}"></g:plusone>
 GP;
-    return $markup;
+  return $markup;
 }
 
 /**
@@ -57,12 +59,12 @@ GP;
  * @param $data Actually not used
  * @return the html markup
  */
-function _easysocial_widget_linkedin_markup($url, $type, $data = NULL, $lang = 'en_US'){
-  $type = ($type == 0) ? 'right' : 'top';
+function _easysocial_widget_linkedin_markup($url, $type, $data = NULL, $lang = 'en_US') {
+  $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $markup = <<<LI
-    <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
+<script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
 LI;
-    return $markup;
+  return $markup;
 }
 
 /**
@@ -72,23 +74,23 @@ LI;
  * @param $data Assoc array with info for the tweet
  * @return the html markup
  */
-function _easysocial_widget_twitter_markup($url, $type, $data = NULL, $lang = 'en'){
-  $type = ($type == 0) ? 'horizontal' : 'vertical';
-  
+function _easysocial_widget_twitter_markup($url, $type, $data = NULL, $lang = 'en') {
+  $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
+
   $account_via = variable_get_value('easysocial_tt_global_account_via');
   $account_related = variable_get_value('easysocial_tt_global_account_related');
   $description = variable_get_value('easysocial_tt_global_account_description');
   $description = str_replace('!title', $data['title'], $description);
-  
+
   $markup = <<<TT
-    <a href="http://twitter.com/share" 
-    class="twitter-share-button" 
-    data-url="{$url}" 
-    data-count="{$type}"
-    data-lang = "{$lang}"
-    data-via="{$account_via}" 
-    data-related="{$account_related}" 
-    data-text="{$description}">Tweet</a>
+<a href="http://twitter.com/share" 
+class="twitter-share-button" 
+data-url="{$url}" 
+data-count="{$type}"
+data-lang = "{$lang}"
+data-via="{$account_via}" 
+data-related="{$account_related}" 
+data-text="{$description}">Tweet</a>
 TT;
   return $markup;
 }

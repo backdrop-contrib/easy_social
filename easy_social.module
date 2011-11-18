@@ -4,6 +4,12 @@
  * 
  */
 
+/**
+ * Define Widget Type constants
+ */
+define('EASY_SOCIAL_WIDGET_HORIZONTAL', 0);
+define('EASY_SOCIAL_WIDGET_VERTICAL', 1);
+
 module_load_include('inc', 'easy_social');
 
 /**
@@ -139,7 +145,10 @@ function admin_config_easy_social() {
   $form['global_settings']['easysocial_global_typebtn'] = array(
     '#type' => 'radios',
     '#title' => t('Type of buttons'),
-    '#options' => array(t('Horizontal'), t('Vertical')),
+    '#options' => array(
+      EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
+      EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
+    ),
     '#default_value' => variable_get_value('easysocial_global_typebtn'),
   );
 
@@ -226,8 +235,10 @@ function admin_config_easy_social() {
     $form['override_settings']['easysocial_settings_type_' . $type]['easysocial_' . $type . '_typebtn'] = array(
       '#type' => 'radios',
       '#title' => t('Type of buttons'),
-      // '#description' => t('Type of buttons, horizontal or vertical.'),
-      '#options' => array(t('Horizontal'), t('Vertical')),
+      '#options' => array(
+        EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
+        EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
+      ),
       '#default_value' => variable_get_value('easysocial_' . $type . '_typebtn')
     );
 
