@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file Easy social module.
  * 
  */
-
 /**
  * Define Widget Type constants
  */
@@ -213,7 +213,7 @@ function easy_social_node_view($node, $view_mode, $langcode) {
           'nid' => $node->nid,
           'title' => $node->title
         );
-        
+
         // add external javascript, if any
         if (isset($widgets[$service]['script'])) {
           drupal_add_js($widgets[$service]['script'], 'external');
@@ -241,26 +241,32 @@ function easy_social_node_view($node, $view_mode, $langcode) {
  * Results are cached
  * 
  * @return array
- * @TODO implement static cache
  */
 function easy_social_get_widgets() {
-  $cache = cache_get('easy_social_widgets');
+  static $static;
 
-  if (isset($cache->data) && is_array($cache->data)) {
-    $return = $cache->data;
-  }
-  else {
-    $return = array();
+  // first check static cache
+  if (!isset($static)) {
+    // then check Drupal's cache
+    $cache = cache_get('easy_social_widgets');
 
-    foreach (module_implements('easy_social_widget') as $name) {
-      $widgets = module_invoke($name, 'easy_social_widget');
-      $return = array_merge($return, $widgets);
+    if (isset($cache->data) && is_array($cache->data)) {
+      $return = $cache->data;
     }
+    else {
+      $return = array();
 
-    cache_set('easy_social_widgets', $return, 'bin', CACHE_TEMPORARY);
+      foreach (module_implements('easy_social_widget') as $name) {
+        $widgets = module_invoke($name, 'easy_social_widget');
+        $return = array_merge($return, $widgets);
+      }
+
+      cache_set('easy_social_widgets', $return, 'bin', CACHE_TEMPORARY);
+    }
+    $static = $return;
   }
 
-  return $return;
+  return $static;
 }
 
 /**
