@@ -32,40 +32,6 @@ function _easy_social_admin_config_main() {
     '#options' => $options,
     '#default_value' => variable_get_value('easy_social_global_widgets'),
   );
-  
-  // @TODO figure out how to deal with extra settings fields for widgets
-  
-  $form['global_settings']['twitter_global_data'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Twitter Info'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-
-  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_via'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Mention account'),
-    '#size' => 40,
-    '#maxlength' => 255,
-    '#default_value' => variable_get_value('easy_social_twitter_account_via'),
-  );
-
-  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_related'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Related account'),
-    '#size' => 40,
-    '#maxlength' => 255,
-    '#default_value' => variable_get_value('easy_social_twitter_account_related'),
-  );
-
-  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_description'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Related account description'),
-    '#size' => 120,
-    '#maxlength' => 120,
-    '#default_value' => variable_get_value('easy_social_twitter_account_description'),
-    '#description' => 'Use !title for the current page title'
-  );
 
   // block settings
   
@@ -138,5 +104,53 @@ function _easy_social_admin_config_ignore_paths() {
 
   $form = system_settings_form($form);
 
+  return $form;
+}
+
+function _easy_social_admin_config_extra() {
+  $form = array();
+  
+  $form['easy_social_extra'] = array(
+    '#markup' => '<h4>' . t('Use the secondary tabs on the right to access extra settings for certain widgets') . '</h4>',
+  );
+  
+  return $form;
+}
+
+function _easy_social_admin_config_extra_twitter() {
+  $form = array();
+
+  $form['easy_social_twitter_title'] = array(
+    '#markup' => '<h4>' . t('Twitter widget settings') . '</h4>',
+  );
+
+  $form['easy_social_twitter_info'] = array(
+    '#markup' => t('For more information check out the official Twitter widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'https://twitter.com/about/resources/tweetbutton')),
+  );
+  
+  $form['easy_social_twitter_account_via'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Mention account'),
+    '#size' => 40,
+    '#maxlength' => 255,
+    '#default_value' => variable_get_value('easy_social_twitter_account_via'),
+  );
+
+  $form['easy_social_twitter_account_related'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Related account'),
+    '#size' => 40,
+    '#maxlength' => 255,
+    '#default_value' => variable_get_value('easy_social_twitter_account_related'),
+  );
+
+  $form['easy_social_twitter_account_description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Related account description'),
+    '#size' => 120,
+    '#maxlength' => 120,
+    '#default_value' => variable_get_value('easy_social_twitter_account_description'),
+  );
+  
   return $form;
 }
