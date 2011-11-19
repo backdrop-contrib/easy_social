@@ -71,14 +71,14 @@ function easy_social_variable_info() {
     'token' => FALSE,
   );
 
-  $variables['easy_social_global_typebtn'] = array(
+  $variables['easy_social_global_type'] = array(
     'title' => t('Easy Social Global Type of Buttons'),
-    'default' => 0,
+    'default' => 1,
     'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easy_social_global_social_buttons'] = array(
+  $variables['easy_social_global_widgets'] = array(
     'title' => t('Easy Social Global Type of Network Buttons'),
     'default' => array('twitter', 'facebook', 'googleplus', 'linkedin'),
     'group' => 'easy_social',
@@ -86,26 +86,25 @@ function easy_social_variable_info() {
   );
 
   // custom settings per content type
-
   $node_types = node_type_get_types();
 
   foreach ($node_types as $type => $typeobj) {
-    $variables['easy_social_' . $type . '_override'] = array(
-      'title' => t('Easy Social Override Option for type %type', array('%type' => $typeobj->name)),
-      'default' => 0,
+    $variables["easy_social_{$type}_enable"] = array(
+      'title' => t('Enable Easy Social for nodes of type %type', array('%type' => $typeobj->name)),
+      'default' => FALSE,
       'group' => 'easy_social',
       'token' => FALSE,
     );
 
-    $variables['easy_social_' . $type . '_typebtn'] = array(
-      'title' => t('Easy Social Type of Buttons for %type', array('%type' => $typeobj->name)),
-      'default' => 0,
+    $variables["easy_social_{$type}_type"] = array(
+      'title' => t('Easy Social widget type for nodes of %type', array('%type' => $typeobj->name)),
+      'default' => 1,
       'group' => 'easy_social',
       'token' => FALSE,
     );
 
-    $variables['easy_social_' . $type . '_social_buttons'] = array(
-      'title' => t('Easy Social Network Buttons for %type', array('%type' => $typeobj->name)),
+    $variables["easy_social_{$type}_widgets"] = array(
+      'title' => t('Easy Social widgets for nodes of %type', array('%type' => $typeobj->name)),
       'default' => array(),
       'group' => 'easy_social',
       'token' => FALSE,
@@ -137,19 +136,19 @@ function easy_social_variable_info() {
   // custom settings for blocks
   $variables['easy_social_override_block'] = array(
     'title' => t('Easy Social Override Option for blocks'),
-    'default' => 0,
+    'default' => FALSE,
     'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easy_social_override_block_typebtn'] = array(
+  $variables['easy_social_override_block_type'] = array(
     'title' => t('Easy Social Type of Buttons for blocks'),
-    'default' => 0,
+    'default' => 1,
     'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easy_social_override_block_social_buttons'] = array(
+  $variables['easy_social_override_block_widgets'] = array(
     'title' => t('Easy Social Network Buttons for blocks'),
     'default' => array(),
     'group' => 'easy_social',
@@ -179,15 +178,18 @@ function easy_social_theme() {
 function easy_social_field_extra_fields() {
   $extra = array();
   $node_types = node_type_get_types();
+
   foreach ($node_types as $type => $typeobj) {
-    $extra['node'][$type] = array(
-      'display' => array(
-        'easy_social' => array(
-          'label' => t('Easy Social'),
-          'weight' => 100,
+    if (variable_get_value("easy_social_{$type}_enable")) {
+      $extra['node'][$type] = array(
+        'display' => array(
+          'easy_social' => array(
+            'label' => t('Easy Social'),
+            'weight' => 100,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
   return $extra;
 }
@@ -200,22 +202,19 @@ function easy_social_node_view($node, $view_mode, $langcode) {
   // we use this instead of $node->path to get an absolute URL
   $url = url('node/' . $node->nid, array('absolute' => TRUE));
 
-  //Check if this type has a custom setting
-  if (variable_get_value('easy_social_' . $node->type . '_override') == 1) {
-    $type = variable_get_value('easy_social_' . $node->type . '_typebtn');
-    $buttons = variable_get_value('easy_social_' . $node->type . '_social_buttons');
-  }
-  else {
-    $type = $buttons = NULL;
-  }
+  // check if easy social is enabled for this content type
+//  var_dump($node->type, "easy_social_{$node->type}_enable", variable_get_value("easy_social_{$node->type}_enable"));die;
+  if (variable_get_value("easy_social_{$node->type}_enable")) {
+    $type = variable_get_value("easy_social_{$node->type}_type");
+    $buttons = variable_get_value("easy_social_{$node->type}_widgets");
+    $widgets = _easy_social_render_widgets($url, $node->title, $type, $buttons);
 
-  $widgets = _easy_social_render_widgets($url, $node->title, $type, $buttons);
-
-  $node->content['easy_social'] = array(
-    '#theme' => 'easy_social_links',
-    '#social_links' => $widgets,
-    '#weight' => 999
-  );
+    $node->content['easy_social'] = array(
+      '#theme' => 'easy_social_links',
+      '#social_links' => $widgets,
+      '#weight' => 999
+    );
+  }
 }
 
 /**
@@ -305,9 +304,9 @@ function easy_social_block_view($delta = '') {
       $title = drupal_get_title();
 
       // check if blocks have overriden settings
-      if (variable_get_value('easy_social_override_block') == 1) {
-        $type = variable_get_value('easy_social_override_block_typebtn');
-        $buttons = variable_get_value('easy_social_override_block_social_buttons');
+      if (variable_get_value('easy_social_override_block')) {
+        $type = variable_get_value('easy_social_override_block_type');
+        $buttons = variable_get_value('easy_social_override_block_widgets');
       }
       else {
         $type = $buttons = NULL;
@@ -362,11 +361,11 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $buttons = NULL
   if (!_easy_social_page_ignore()) {
     // fallback to default settings
     if (!isset($type)) {
-      $type = variable_get_value('easy_social_global_typebtn');
+      $type = variable_get_value('easy_social_global_type');
     }
 
     if (!isset($buttons)) {
-      $buttons = variable_get_value('easy_social_global_social_buttons');
+      $buttons = variable_get_value('easy_social_global_widgets');
     }
 
     $social_links = array();
@@ -386,4 +385,80 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $buttons = NULL
     }
     return $social_links;
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds easy social options to the node type form.
+ */
+function easy_social_form_node_type_form_alter(&$form, $form_state) {
+  $type = $form['#node_type'];
+  $options = _easy_social_get_options();
+  $form['#submit'][] = 'easy_social_node_type_form_submit';
+
+  $form['easy_social'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Easy Social settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'additional_settings',
+  );
+
+  $form['easy_social']["easy_social_{$type->type}_enable"] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Easy Social'),
+    '#description' => t('Check this option to enable easy social for this content type'),
+    '#default_value' => variable_get_value("easy_social_{$type->type}_enable"),
+  );
+
+  $form['easy_social']["easy_social_{$type->type}_type"] = array(
+    '#type' => 'radios',
+    '#title' => t('Type of buttons'),
+    '#options' => array(
+      EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
+      EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
+    ),
+    '#default_value' => variable_get_value("easy_social_{$type->type}_type")
+  );
+
+  $form['easy_social']["easy_social_{$type->type}_widgets"] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Social Widgets'),
+    '#options' => $options,
+    '#default_value' => variable_get_value("easy_social_{$type->type}_widgets"),
+  );
+}
+
+/**
+ * Submit callback
+ * 
+ * @see easy_social_form_node_type_form_alter().
+ */
+function easy_social_node_type_form_submit(&$form, &$form_state) {
+  foreach ($form_state['values'] as $name => $value) {
+    if (strpos($name, 'easy_social') === 0) {
+      variable_set($name, $value);
+    }
+  }
+}
+
+/**
+ * Returns easy social options for use in settings forms
+ * 
+ * @return array
+ */
+function _easy_social_get_options() {
+  static $options;
+
+  if (!isset($options)) {
+    $widgets = easy_social_get_widgets();
+    $options = array();
+
+    foreach ($widgets as $k => $widget) {
+      $options[$k] = isset($widget['name']) ? $widget['name'] : $k;
+    }
+  }
+
+  return $options;
 }

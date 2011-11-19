@@ -11,36 +11,29 @@ function _easy_social_admin_config_main() {
     '#title' => t('Global Settings'),
     '#description' => t('Global settings for all widgets'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
   );
 
-  $form['global_settings']['easy_social_global_typebtn'] = array(
+  $form['global_settings']['easy_social_global_type'] = array(
     '#type' => 'radios',
     '#title' => t('Type of buttons'),
     '#options' => array(
       EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
       EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
     ),
-    '#default_value' => variable_get_value('easy_social_global_typebtn'),
+    '#default_value' => variable_get_value('easy_social_global_type'),
   );
 
-  $widgets = easy_social_get_widgets();
-  $options = array();
+  $options = _easy_social_get_options();
   
-  foreach ($widgets as $k => $widget) {
-    $options[$k] = isset($widget['name']) ? $widget['name'] : $k;
-  }
-  
-  $form['global_settings']['easy_social_global_social_buttons'] = array(
+  $form['global_settings']['easy_social_global_widgets'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Buttons'),
     '#options' => $options,
-    '#default_value' => variable_get_value('easy_social_global_social_buttons'),
+    '#default_value' => variable_get_value('easy_social_global_widgets'),
   );
-
-  /**
-   * @TODO figure out how to deal with extra settings fields for widgets
-   */
+  
+  // @TODO figure out how to deal with extra settings fields for widgets
   
   $form['global_settings']['twitter_global_data'] = array(
     '#type' => 'fieldset',
@@ -73,54 +66,6 @@ function _easy_social_admin_config_main() {
     '#default_value' => variable_get_value('easy_social_tt_global_account_description'),
     '#description' => 'Use !title for the current page title'
   );
-
-  $form['override_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Override Settings by Content Type'),
-    '#description' => t('Custom settings per Content Type'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-
-  $node_types = node_type_get_types();
-
-  // sometimes when dealing with feature-defined content types they appear out of order
-  // since this is an admin page we prefer organization over performance so go ahead and sort it
-  ksort($node_types);
-
-  foreach ($node_types as $type => $typeobj) {
-
-    $form['override_settings']['easy_social_settings_type_' . $type] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Custom Settings for %type', array('%type' => $typeobj->name)),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-    );
-
-    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_override'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Override'),
-      '#description' => t('Check this option to override the global settings for this type'),
-      '#default_value' => variable_get_value('easy_social_' . $type . '_override'),
-    );
-
-    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_typebtn'] = array(
-      '#type' => 'radios',
-      '#title' => t('Type of buttons'),
-      '#options' => array(
-        EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
-        EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
-      ),
-      '#default_value' => variable_get_value('easy_social_' . $type . '_typebtn')
-    );
-
-    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_social_buttons'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('Social Buttons'),
-      '#options' => $options,
-      '#default_value' => variable_get_value('easy_social_' . $type . '_social_buttons'),
-    );
-  }
 
   // block settings
   
@@ -155,21 +100,21 @@ function _easy_social_admin_config_main() {
     '#default_value' => variable_get_value('easy_social_override_block'),
   );
 
-  $form['block_settings']['override_settings_block']['easy_social_override_block_typebtn'] = array(
+  $form['block_settings']['override_settings_block']['easy_social_override_block_type'] = array(
     '#type' => 'radios',
     '#title' => t('Type of buttons'),
     '#options' => array(
       EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
       EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
     ),
-    '#default_value' => variable_get_value('easy_social_override_block_typebtn')
+    '#default_value' => variable_get_value('easy_social_override_block_type')
   );
   
-  $form['block_settings']['override_settings_block']['easy_social_override_block_social_buttons'] = array(
+  $form['block_settings']['override_settings_block']['easy_social_override_block_widgets'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Buttons'),
     '#options' => $options,
-    '#default_value' => variable_get_value('easy_social_override_block_social_buttons'),
+    '#default_value' => variable_get_value('easy_social_override_block_widgets'),
   );
   
   $form = system_settings_form($form);

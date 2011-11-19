@@ -20,16 +20,10 @@ function easy_social_uninstall() {
  * Implements hook_update_N().
  */
 function easy_social_update_7200() {
-  // change variables' prefix from "easysocial" to "easy_social"
+  // delete old variable names
   $result = db_query("SELECT name, value FROM variable WHERE name LIKE 'easysocial%'");
 
   foreach ($result as $row) {
-    // get variable, change name & save
-    $value = variable_get($row->name);
-    $name = str_replace('easysocial', 'easy_social', $row->name);
-    variable_set($name, $value);
-
-    // get rid of old variable
     variable_del($row->name);
   }
 }
