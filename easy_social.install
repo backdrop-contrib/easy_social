@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file Easy Social installation hooks
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function easy_social_uninstall() {
+  // remove variables
+  $result = db_query("SELECT name FROM variable WHERE name LIKE 'easy_social%'");
+
+  foreach ($result as $row) {
+    variable_del($row->name);
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function easy_social_update_7200() {
+  // change variables' prefix from "easysocial" to "easy_social"
+  $result = db_query("SELECT name, value FROM variable WHERE name LIKE 'easysocial%'");
+
+  foreach ($result as $row) {
+    // get variable, change name & save
+    $value = variable_get($row->name);
+    $name = str_replace('easysocial', 'easy_social', $row->name);
+    variable_set($name, $value);
+
+    // get rid of old variable
+    variable_del($row->name);
+  }
+}

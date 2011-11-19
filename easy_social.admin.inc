@@ -9,19 +9,19 @@ function _easy_social_admin_config_main() {
   $form['global_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Global Settings'),
-    '#description' => t('Settings available for all content types'),
+    '#description' => t('Global settings for all widgets'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
 
-  $form['global_settings']['easysocial_global_typebtn'] = array(
+  $form['global_settings']['easy_social_global_typebtn'] = array(
     '#type' => 'radios',
     '#title' => t('Type of buttons'),
     '#options' => array(
       EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
       EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
     ),
-    '#default_value' => variable_get_value('easysocial_global_typebtn'),
+    '#default_value' => variable_get_value('easy_social_global_typebtn'),
   );
 
   $widgets = easy_social_get_widgets();
@@ -31,11 +31,11 @@ function _easy_social_admin_config_main() {
     $options[$k] = isset($widget['name']) ? $widget['name'] : $k;
   }
   
-  $form['global_settings']['easysocial_global_social_buttons'] = array(
+  $form['global_settings']['easy_social_global_social_buttons'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Buttons'),
     '#options' => $options,
-    '#default_value' => variable_get_value('easysocial_global_social_buttons'),
+    '#default_value' => variable_get_value('easy_social_global_social_buttons'),
   );
 
   /**
@@ -49,35 +49,35 @@ function _easy_social_admin_config_main() {
     '#collapsed' => TRUE,
   );
 
-  $form['global_settings']['twitter_global_data']['easysocial_tt_global_account_via'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_via'] = array(
     '#type' => 'textfield',
     '#title' => t('Mention account'),
     '#size' => 40,
     '#maxlength' => 255,
-    '#default_value' => variable_get_value('easysocial_tt_global_account_via'),
+    '#default_value' => variable_get_value('easy_social_tt_global_account_via'),
   );
 
-  $form['global_settings']['twitter_global_data']['easysocial_tt_global_account_related'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_related'] = array(
     '#type' => 'textfield',
     '#title' => t('Related account'),
     '#size' => 40,
     '#maxlength' => 255,
-    '#default_value' => variable_get_value('easysocial_tt_global_account_related'),
+    '#default_value' => variable_get_value('easy_social_tt_global_account_related'),
   );
 
-  $form['global_settings']['twitter_global_data']['easysocial_tt_global_account_description'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_description'] = array(
     '#type' => 'textfield',
     '#title' => t('Related account description'),
     '#size' => 120,
     '#maxlength' => 120,
-    '#default_value' => variable_get_value('easysocial_tt_global_account_description'),
+    '#default_value' => variable_get_value('easy_social_tt_global_account_description'),
     '#description' => 'Use !title for the current page title'
   );
 
   $form['override_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Override Settings by Content Type'),
-    '#description' => t('Settings by Content Type'),
+    '#description' => t('Custom settings per Content Type'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -90,35 +90,35 @@ function _easy_social_admin_config_main() {
 
   foreach ($node_types as $type => $typeobj) {
 
-    $form['override_settings']['easysocial_settings_type_' . $type] = array(
+    $form['override_settings']['easy_social_settings_type_' . $type] = array(
       '#type' => 'fieldset',
       '#title' => t('Custom Settings for %type', array('%type' => $typeobj->name)),
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
     );
 
-    $form['override_settings']['easysocial_settings_type_' . $type]['easysocial_' . $type . '_override'] = array(
+    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_override'] = array(
       '#type' => 'checkbox',
       '#title' => t('Override'),
       '#description' => t('Check this option to override the global settings for this type'),
-      '#default_value' => variable_get_value('easysocial_' . $type . '_override'),
+      '#default_value' => variable_get_value('easy_social_' . $type . '_override'),
     );
 
-    $form['override_settings']['easysocial_settings_type_' . $type]['easysocial_' . $type . '_typebtn'] = array(
+    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_typebtn'] = array(
       '#type' => 'radios',
       '#title' => t('Type of buttons'),
       '#options' => array(
         EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
         EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
       ),
-      '#default_value' => variable_get_value('easysocial_' . $type . '_typebtn')
+      '#default_value' => variable_get_value('easy_social_' . $type . '_typebtn')
     );
 
-    $form['override_settings']['easysocial_settings_type_' . $type]['easysocial_' . $type . '_social_buttons'] = array(
+    $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_social_buttons'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Social Buttons'),
       '#options' => array('twitter' => 'Twitter', 'facebook' => 'Facebook', 'googleplus' => 'Google Plus', 'linkedin' => 'Linked In'),
-      '#default_value' => variable_get_value('easysocial_' . $type . '_social_buttons'),
+      '#default_value' => variable_get_value('easy_social_' . $type . '_social_buttons'),
     );
   }
 
@@ -134,11 +134,11 @@ function _easy_social_admin_config_main() {
 function _easy_social_admin_config_ignore_paths() {
   $form = array();
 
-  $form['easysocial_ignore_paths'] = array(
+  $form['easy_social_ignore_paths'] = array(
     '#type' => 'textarea',
     '#title' => t('Ignore paths'),
     '#description' => t('Every URL placed here, will not have any Social links.'),
-    '#default_value' => variable_get_value('easysocial_ignore_paths'),
+    '#default_value' => variable_get_value('easy_social_ignore_paths'),
   );
 
   $form = system_settings_form($form);

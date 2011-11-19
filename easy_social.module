@@ -30,7 +30,7 @@ function easy_social_permission() {
 function easy_social_menu() {
   $items = array();
 
-  $items['admin/config/content/easysocial'] = array(
+  $items['admin/config/content/easy_social'] = array(
     'title' => 'Easy Social Settings',
     'description' => 'Configure the social buttons and node types',
     'page callback' => 'drupal_get_form',
@@ -39,13 +39,13 @@ function easy_social_menu() {
     'file' => 'easy_social.admin.inc',
   );
 
-  $items['admin/config/content/easysocial/default'] = array(
+  $items['admin/config/content/easy_social/default'] = array(
     'title' => 'Easy Social Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'easy_social.admin.inc',
   );
 
-  $items['admin/config/content/easysocial/paths-ignore'] = array(
+  $items['admin/config/content/easy_social/paths-ignore'] = array(
     'title' => 'Ignore Paths',
     'description' => 'Global paths to ignore and do not display Easy Social',
     'page callback' => 'drupal_get_form',
@@ -63,45 +63,45 @@ function easy_social_menu() {
  */
 function easy_social_variable_info() {
 
-  $variables['easysocial_ignore_paths'] = array(
+  $variables['easy_social_ignore_paths'] = array(
     'title' => t('Easy Social Global Ignore Paths'),
     'default' => '',
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easysocial_global_typebtn'] = array(
+  $variables['easy_social_global_typebtn'] = array(
     'title' => t('Easy Social Global Type of Buttons'),
     'default' => 0,
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easysocial_global_social_buttons'] = array(
+  $variables['easy_social_global_social_buttons'] = array(
     'title' => t('Easy Social Global Type of Network Buttons'),
     'default' => array('twitter', 'facebook', 'googleplus', 'linkedin'),
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easysocial_tt_global_account_via'] = array(
+  $variables['easy_social_tt_global_account_via'] = array(
     'title' => t('Easy Social Global Mention Account'),
     'default' => '',
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easysocial_tt_global_account_related'] = array(
+  $variables['easy_social_tt_global_account_related'] = array(
     'title' => t('Easy Social Global Related Account'),
     'default' => '',
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easysocial_tt_global_account_description'] = array(
+  $variables['easy_social_tt_global_account_description'] = array(
     'title' => t('Easy Social Global Twitter Description'),
     'default' => 'Check it out: !title',
-    'group' => 'easysocial',
+    'group' => 'easy_social',
     'token' => FALSE,
   );
 
@@ -109,24 +109,24 @@ function easy_social_variable_info() {
 
   foreach ($node_types as $type => $typeobj) {
 
-    $variables['easysocial_' . $type . '_override'] = array(
+    $variables['easy_social_' . $type . '_override'] = array(
       'title' => t('Easy Social Override Option for type %type', array('%type' => $typeobj->name)),
       'default' => -1,
-      'group' => 'easysocial',
+      'group' => 'easy_social',
       'token' => FALSE,
     );
 
-    $variables['easysocial_' . $type . '_typebtn'] = array(
+    $variables['easy_social_' . $type . '_typebtn'] = array(
       'title' => t('Easy Social Type of Buttons for %type', array('%type' => $typeobj->name)),
       'default' => -1,
-      'group' => 'easysocial',
+      'group' => 'easy_social',
       'token' => FALSE,
     );
 
-    $variables['easysocial_' . $type . '_social_buttons'] = array(
+    $variables['easy_social_' . $type . '_social_buttons'] = array(
       'title' => t('Easy Social Network Buttons for %type', array('%type' => $typeobj->name)),
       'default' => array(),
-      'group' => 'easysocial',
+      'group' => 'easy_social',
       'token' => FALSE,
     );
   }
@@ -174,7 +174,7 @@ function easy_social_field_extra_fields() {
 function easy_social_node_view($node, $view_mode, $langcode) {
 
   // Check if the path is ignored
-  $urls_ignored = variable_get_value('easysocial_ignore_paths');
+  $urls_ignored = variable_get_value('easy_social_ignore_paths');
 
   $page_match = FALSE;
 
@@ -189,15 +189,15 @@ function easy_social_node_view($node, $view_mode, $langcode) {
 
   if (!$page_match) {
     //Check if this type has a custom setting
-    if (variable_get_value('easysocial_' . $node->type . '_override') == 1) {
-      $type = variable_get_value('easysocial_' . $node->type . '_typebtn');
-      $buttons = variable_get_value('easysocial_' . $node->type . '_social_buttons');
+    if (variable_get_value('easy_social_' . $node->type . '_override') == 1) {
+      $type = variable_get_value('easy_social_' . $node->type . '_typebtn');
+      $buttons = variable_get_value('easy_social_' . $node->type . '_social_buttons');
     }
     //Global settings
     else {
       // @TODO figure out how to deal with wiget-defined variables
-      $type = variable_get_value('easysocial_global_typebtn');
-      $buttons = variable_get_value('easysocial_global_social_buttons');
+      $type = variable_get_value('easy_social_global_typebtn');
+      $buttons = variable_get_value('easy_social_global_social_buttons');
     }
 
     //Url to be shared
@@ -270,22 +270,22 @@ function easy_social_easy_social_widget() {
   return array(
     'facebook' => array(
       'name' => 'Facebook',
-      'markup' => '_easysocial_widget_facebook_markup',
+      'markup' => '_easy_social_widget_facebook_markup',
       'script' => 'http://static.ak.fbcdn.net/connect.php/js/FB.Share',
     ),
     'googleplus' => array(
       'name' => 'Google+',
-      'markup' => '_easysocial_widget_googleplus_markup',
+      'markup' => '_easy_social_widget_googleplus_markup',
       'script' => 'https://apis.google.com/js/plusone.js',
     ),
     'linkedin' => array(
       'name' => 'LinkedIn',
-      'markup' => '_easysocial_widget_linkedin_markup',
+      'markup' => '_easy_social_widget_linkedin_markup',
       'script' => 'http://platform.linkedin.com/in.js',
     ),
     'twitter' => array(
       'name' => 'Twitter',
-      'markup' => '_easysocial_widget_twitter_markup',
+      'markup' => '_easy_social_widget_twitter_markup',
       'script' => 'http://platform.twitter.com/widgets.js',
     ),
   );
