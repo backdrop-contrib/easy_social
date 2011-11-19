@@ -79,7 +79,7 @@ function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 
 
   $account_via = variable_get_value('easy_social_twitter_account_via');
   $account_related = variable_get_value('easy_social_twitter_account_related');
-  $description = variable_get_value('easy_social_twitter_account_description');
+  $account_related_description = variable_get_value('easy_social_twitter_account_description');
 
   $markup = <<<TT
 <a href="http://twitter.com/share" class="twitter-share-button" 
