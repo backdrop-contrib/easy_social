@@ -42,28 +42,28 @@ function _easy_social_admin_config_main() {
     '#collapsed' => TRUE,
   );
 
-  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_via'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_via'] = array(
     '#type' => 'textfield',
     '#title' => t('Mention account'),
     '#size' => 40,
     '#maxlength' => 255,
-    '#default_value' => variable_get_value('easy_social_tt_global_account_via'),
+    '#default_value' => variable_get_value('easy_social_twitter_account_via'),
   );
 
-  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_related'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_related'] = array(
     '#type' => 'textfield',
     '#title' => t('Related account'),
     '#size' => 40,
     '#maxlength' => 255,
-    '#default_value' => variable_get_value('easy_social_tt_global_account_related'),
+    '#default_value' => variable_get_value('easy_social_twitter_account_related'),
   );
 
-  $form['global_settings']['twitter_global_data']['easy_social_tt_global_account_description'] = array(
+  $form['global_settings']['twitter_global_data']['easy_social_twitter_account_description'] = array(
     '#type' => 'textfield',
     '#title' => t('Related account description'),
     '#size' => 120,
     '#maxlength' => 120,
-    '#default_value' => variable_get_value('easy_social_tt_global_account_description'),
+    '#default_value' => variable_get_value('easy_social_twitter_account_description'),
     '#description' => 'Use !title for the current page title'
   );
 

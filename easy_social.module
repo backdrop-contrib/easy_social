@@ -111,28 +111,6 @@ function easy_social_variable_info() {
     );
   }
 
-  // custom settings for Twitter
-  $variables['easy_social_tt_global_account_via'] = array(
-    'title' => t('Easy Social Global Mention Account'),
-    'default' => '',
-    'group' => 'easy_social',
-    'token' => FALSE,
-  );
-
-  $variables['easy_social_tt_global_account_related'] = array(
-    'title' => t('Easy Social Global Related Account'),
-    'default' => '',
-    'group' => 'easy_social',
-    'token' => FALSE,
-  );
-
-  $variables['easy_social_tt_global_account_description'] = array(
-    'title' => t('Easy Social Global Twitter Description'),
-    'default' => 'Check it out: !title',
-    'group' => 'easy_social',
-    'token' => FALSE,
-  );
-
   // custom settings for blocks
   $variables['easy_social_override_block'] = array(
     'title' => t('Easy Social Override Option for blocks'),
@@ -151,6 +129,28 @@ function easy_social_variable_info() {
   $variables['easy_social_override_block_widgets'] = array(
     'title' => t('Easy Social Network Buttons for blocks'),
     'default' => array(),
+    'group' => 'easy_social',
+    'token' => FALSE,
+  );
+  
+  // custom settings for Twitter
+  $variables['easy_social_twitter_account_via'] = array(
+    'title' => t('Easy Social Global Mention Account'),
+    'default' => '',
+    'group' => 'easy_social',
+    'token' => FALSE,
+  );
+
+  $variables['easy_social_twitter_account_related'] = array(
+    'title' => t('Easy Social Global Related Account'),
+    'default' => '',
+    'group' => 'easy_social',
+    'token' => FALSE,
+  );
+
+  $variables['easy_social_twitter_account_description'] = array(
+    'title' => t('Easy Social Global Twitter Description'),
+    'default' => 'Check it out!',
     'group' => 'easy_social',
     'token' => FALSE,
   );
