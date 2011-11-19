@@ -8,10 +8,10 @@
  * Generate the needed markup for the facebook share link
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
- * @param $data Actually not used
- * @return the html markup
+ * @param $title The title to be shared
+ * @return string the html markup
  */
-function _easy_social_widget_facebook_markup($url, $type, $data = NULL, $lang = 'en_US') {
+function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en_US') {
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
     $type_box = 'button_count';
     $markup = <<<FB
@@ -41,10 +41,10 @@ FB;
  * Generate the needed markeup for the googleplus share link
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
- * @param $data Actually not used
- * @return the html markup
+ * @param $title The title to be shared
+ * @return string the html markup
  */
-function _easy_social_widget_googleplus_markup($url, $type, $data = NULL, $lang = 'en_US') {
+function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en_US') {
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
   $markup = <<<GP
 <g:plusone size="{$type}" href="{$url}"></g:plusone>
@@ -56,10 +56,10 @@ GP;
  * Generate the needed markeup for the linkedin share link
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
- * @param $data Actually not used
- * @return the html markup
+ * @param $title The title to be shared
+ * @return string the html markup
  */
-function _easy_social_widget_linkedin_markup($url, $type, $data = NULL, $lang = 'en_US') {
+function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'en_US') {
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
@@ -71,16 +71,16 @@ LI;
  * Generate the needed markup for the twitter share link
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
- * @param $data Assoc array with info for the tweet
- * @return the html markup
+ * @param $title The title to be shared
+ * @return string the html markup
  */
-function _easy_social_widget_twitter_markup($url, $type, $data = NULL, $lang = 'en') {
+function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'en') {
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
 
   $account_via = variable_get_value('easy_social_tt_global_account_via');
   $account_related = variable_get_value('easy_social_tt_global_account_related');
   $description = variable_get_value('easy_social_tt_global_account_description');
-  $description = str_replace('!title', $data['title'], $description);
+  $description = str_replace('!title', $title, $description);
 
   $markup = <<<TT
 <a href="http://twitter.com/share" 

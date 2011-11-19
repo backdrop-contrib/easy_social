@@ -117,11 +117,61 @@ function _easy_social_admin_config_main() {
     $form['override_settings']['easy_social_settings_type_' . $type]['easy_social_' . $type . '_social_buttons'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Social Buttons'),
-      '#options' => array('twitter' => 'Twitter', 'facebook' => 'Facebook', 'googleplus' => 'Google Plus', 'linkedin' => 'Linked In'),
+      '#options' => $options,
       '#default_value' => variable_get_value('easy_social_' . $type . '_social_buttons'),
     );
   }
 
+  // block settings
+  
+  $form['block_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Blocks'),
+    '#description' => t('Custom settings for Blocks'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  
+  $form['block_settings']['easy_social_block_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Block title'),
+    '#description' => t("Leave this blank if you don't want the block to have a title"),
+    '#maxlength' => 255,
+    '#default_value' => variable_get_value('easy_social_block_title'),
+  );
+  
+  $form['block_settings']['override_settings_block'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Override Settings for Blocks'),
+    '#description' => t('Override settings for Blocks'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['block_settings']['override_settings_block']['easy_social_override_block'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Override'),
+    '#description' => t('Check this option to override the global settings for blocks'),
+    '#default_value' => variable_get_value('easy_social_override_block'),
+  );
+
+  $form['block_settings']['override_settings_block']['easy_social_override_block_typebtn'] = array(
+    '#type' => 'radios',
+    '#title' => t('Type of buttons'),
+    '#options' => array(
+      EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
+      EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
+    ),
+    '#default_value' => variable_get_value('easy_social_override_block_typebtn')
+  );
+  
+  $form['block_settings']['override_settings_block']['easy_social_override_block_social_buttons'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Social Buttons'),
+    '#options' => $options,
+    '#default_value' => variable_get_value('easy_social_override_block_social_buttons'),
+  );
+  
   $form = system_settings_form($form);
 
   return $form;
