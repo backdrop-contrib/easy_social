@@ -15,13 +15,14 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   // correct for different language identification strings
   if ($lang === 'en') {
     $lang = 'en_US';
-  } elseif ($lang === 'en-gb') {
+  }
+  elseif ($lang === 'en-gb') {
     $lang = 'en_GB';
   }
 
   // @TODO subscribe to the 'edge.create' event through FB.Event.subscribe to track successful shares
   // this will likely be in either a seperate module or a new version
-  
+
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
     $width = variable_get_value('easy_social_facebook_width_horizontal');
     $type_box = 'button_count';
@@ -40,7 +41,7 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   $action = variable_get_value('easy_social_facebook_verb');
   $color_scheme = variable_get_value('easy_social_facebook_color_scheme');
   $font = variable_get_value('easy_social_facebook_font');
-  
+
   if ($font === 'default') {
     $font = '';
   }
@@ -58,7 +59,7 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
 JS;
     drupal_add_js($script, 'inline');
   }
-  
+
   if ($facebook_type === 'html5') {
     $markup = <<<FB
 <div class="fb-like" data-href="{$url}" data-send="{$send_button}" data-layout="{$type_box}" data-width="{$width}" data-show-faces="{$show_faces}" data-action="{$action}" data-colorscheme="{$color_scheme}" data-font="{$font}"></div>
@@ -88,16 +89,28 @@ FB;
  * @return string the html markup
  */
 function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en') {
+  // this widget doesn't yet offer a localization option
   // correct for different language identification strings
-  if ($lang === 'en') {
-    $lang = 'en_US';
-  }
+//  if ($lang === 'en') {
+//    $lang = 'en_US';
+//  }
+  // @TODO use "callback" to track successful shares
+  // this will likely be in either a seperate module or a new version
 
   $annotation = variable_get_value('easy_social_googleplus_annotation');
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
-  $markup = <<<GP
+  $html5 = variable_get_value('easy_social_googleplus_html5');
+
+  if ($html5) {
+    $markup = <<<GP
+<div class="g-plusone" data-size="{$type}" data-annotation="{$annotation}" data-href="{$url}"></div>
+GP;
+  }
+  else {
+    $markup = <<<GP
 <g:plusone size="{$type}" href="{$url}" annotation="{$annotation}"></g:plusone>
 GP;
+  }
   return $markup;
 }
 
@@ -114,10 +127,9 @@ function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang =
 //  if ($lang === 'en') {
 //    $lang = 'en_US';
 //  }
-  
   // @TODO use "data-onsuccess" to track successful shares
   // this will likely be in either a seperate module or a new version
-  
+
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
@@ -136,7 +148,8 @@ function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 
   // correct for different language identification strings
   if ($lang === 'en-gb') {
     $lang = 'en';
-  } elseif ($lang === 'pt-br' || $lang === 'pt-pt') {
+  }
+  elseif ($lang === 'pt-br' || $lang === 'pt-pt') {
     $lang = 'pt';
   }
 

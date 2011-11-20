@@ -303,6 +303,13 @@ function easy_social_variable_info() {
     'token' => FALSE,        
   );
 
+  $variables['easy_social_googleplus_html5'] = array(
+    'title' => t('HTML5 valid syntax'),
+    'default' => TRUE,
+    'group' => 'easy_social',
+    'token' => FALSE,        
+  );
+
   return $variables;
 }
 

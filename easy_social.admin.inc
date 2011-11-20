@@ -321,6 +321,13 @@ function _easy_social_admin_config_extra_googleplus() {
     ),
     '#default_value' => variable_get_value('easy_social_googleplus_annotation'),
   );
+  
+  $form['easy_social_googleplus_html5'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('HTML5 valid syntax'),
+    '#description' => t('Whether the widget should be output in HTML5 valid syntax or not'),
+    '#default_value' => variable_get_value('easy_social_googleplus_html5'),
+  );
 
   return system_settings_form($form);
 }
