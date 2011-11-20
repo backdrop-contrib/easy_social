@@ -11,27 +11,65 @@
  * @param $title The title to be shared
  * @return string the html markup
  */
-function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en_US') {
+function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en') {
+  // correct for different language identification
+  if ($lang === 'en') {
+    $lang = 'en_US';
+  }
+
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
+    $width = variable_get_value('easy_social_facebook_width_horizontal');
     $type_box = 'button_count';
+    $height = '21';
+  }
+  else {
+    $width = variable_get_value('easy_social_facebook_width_vertical');
+    $type_box = 'box_count';
+    $height = '90';
+  }
+
+  $appid = variable_get_value('easy_social_facebook_appid');
+  $facebook_type = variable_get_value('easy_social_facebook_widget_type');
+  $send_button = variable_get_value('easy_social_facebook_send_button') ? 'true' : 'false';
+  $show_faces = variable_get_value('easy_social_facebook_show_faces') ? 'true' : 'false';
+  $action = variable_get_value('easy_social_facebook_verb');
+  $color_scheme = variable_get_value('easy_social_facebook_color_scheme');
+  $font = variable_get_value('easy_social_facebook_font');
+  
+  if ($font === 'default') {
+    $font = '';
+  }
+
+  if ($facebook_type !== 'iframe') {
+    // this is done here instead of using the proper hook method because the script is only added in the HTMl5 and XFBML versions, not iframe
+    $script = <<<JS
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={$appid}";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+JS;
+    drupal_add_js($script, 'inline');
+  }
+  
+  if ($facebook_type === 'html5') {
     $markup = <<<FB
-      <iframe class="fb-widget" 
-      src="http://www.facebook.com/plugins/like.php?href={$url}&amp;locale={$lang}&amp;layout={$type_box}&amp;show_faces=false&amp;width=86&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=21" 
-      scrolling="no" 
-      frameborder="0" 
-      style="border:none; overflow:hidden; width:87px; height:21px;" 
-      allowTransparency="true"></iframe>
+<div class="fb-like" data-href="{$url}" data-send="{$send_button}" data-layout="{$type_box}" data-width="{$width}" data-show-faces="{$show_faces}" data-action="{$action}" data-colorscheme="{$color_scheme}" data-font="{$font}"></div>
+FB;
+  }
+  elseif ($facebook_type === 'xfbml') {
+    $markup = <<<FB
+<fb:like href="{$url}" send="{$send_button}" layout="{$type_box}" width="{$width}" show_faces="{$show_faces}" action="{$action}" colorscheme="{$color_scheme}" font="{$font}"></fb:like>
 FB;
   }
   else {
-    $type_box = 'box_count';
+    $url = drupal_encode_path($url);
+    $font = drupal_encode_path($font);
+
     $markup = <<<FB
-      <iframe class="fb-widget" 
-      src="http://www.facebook.com/plugins/like.php?href={$url}&amp;locale={$lang}&amp;layout={$type_box}&amp;show_faces=false&amp;width=450&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=21" 
-      scrolling="no" 
-      frameborder="0" 
-      style="border:none; overflow:hidden; width:48px; height:60px;" 
-      allowTransparency="true"></iframe>
+<iframe src="//www.facebook.com/plugins/like.php?href={$url}&amp;send=false&amp;layout={$type_box}&amp;width={$width}&amp;show_faces={$show_faces}&amp;action={$action}&amp;colorscheme={$color_scheme}&amp;font={$font}&amp;height={$height}&amp;appId={$appid}" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:{$width}px; height:{$height}px;" allowTransparency="true"></iframe>
 FB;
   }
   return $markup;
@@ -44,7 +82,12 @@ FB;
  * @param $title The title to be shared
  * @return string the html markup
  */
-function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en_US') {
+function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en') {
+  // correct for different language identification
+  if ($lang === 'en') {
+    $lang = 'en_US';
+  }
+
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
   $markup = <<<GP
 <g:plusone size="{$type}" href="{$url}"></g:plusone>
@@ -59,7 +102,12 @@ GP;
  * @param $title The title to be shared
  * @return string the html markup
  */
-function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'en_US') {
+function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'en') {
+  // correct for different language identification
+  if ($lang === 'en') {
+    $lang = 'en_US';
+  }
+
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>

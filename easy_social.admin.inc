@@ -191,6 +191,14 @@ function _easy_social_admin_config_extra_facebook() {
     '#markup' => t('For more information check out the official Facebook widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'http://developers.facebook.com/docs/reference/plugins/like/')),
   );
 
+  $form['easy_social_facebook_appid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facebook Application ID'),
+    '#description' => t("Insert your Application ID if you want to integrate the widget with an existing Facebook application. Leave it blank if you don't know what this means."),
+    '#default_value' => variable_get_value('easy_social_facebook_appid'),
+    '#size' => 30,
+  );
+  
   $form['easy_social_facebook_widget_type'] = array(
     '#type' => 'select',
     '#title' => t('Facebook widget type'),

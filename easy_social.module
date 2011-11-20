@@ -222,6 +222,13 @@ function easy_social_variable_info() {
   );
 
   // custom settings for facebook
+  $variables['easy_social_facebook_appid'] = array(
+    'title' => t('Facebook Application ID'),
+    'default' => '',
+    'group' => 'easy_social',
+    'token' => FALSE,    
+  );
+
   $variables['easy_social_facebook_widget_type'] = array(
     'title' => t('Facebook widget type'),
     'default' => 'iframe',
