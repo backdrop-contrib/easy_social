@@ -12,11 +12,16 @@
  * @return string the html markup
  */
 function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en') {
-  // correct for different language identification
+  // correct for different language identification strings
   if ($lang === 'en') {
     $lang = 'en_US';
+  } elseif ($lang === 'en-gb') {
+    $lang = 'en_GB';
   }
 
+  // @TODO subscribe to the 'edge.create' event through FB.Event.subscribe to track successful shares
+  // this will likely be in either a seperate module or a new version
+  
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
     $width = variable_get_value('easy_social_facebook_width_horizontal');
     $type_box = 'button_count';
@@ -83,7 +88,7 @@ FB;
  * @return string the html markup
  */
 function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en') {
-  // correct for different language identification
+  // correct for different language identification strings
   if ($lang === 'en') {
     $lang = 'en_US';
   }
@@ -103,11 +108,15 @@ GP;
  * @return string the html markup
  */
 function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'en') {
-  // correct for different language identification
-  if ($lang === 'en') {
-    $lang = 'en_US';
-  }
-
+  // this widget doesn't yet offer a localization option
+  // correct for different language identification strings
+//  if ($lang === 'en') {
+//    $lang = 'en_US';
+//  }
+  
+  // @TODO use "data-onsuccess" to track successful shares
+  // this will likely be in either a seperate module or a new version
+  
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
@@ -123,6 +132,13 @@ LI;
  * @return string the html markup
  */
 function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'en') {
+  // correct for different language identification strings
+  if ($lang === 'en-gb') {
+    $lang = 'en';
+  } elseif ($lang === 'pt-br' || $lang === 'pt-pt') {
+    $lang = 'pt';
+  }
+
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
 
   $account_via = variable_get_value('easy_social_twitter_account_via');
