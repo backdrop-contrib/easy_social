@@ -294,3 +294,33 @@ function _easy_social_admin_config_extra_facebook_validate(&$form, &$form_state)
     form_set_error('easy_social_facebook_width_horizontal', t('Horizontal Widget Width must be numeric'));
   }
 }
+
+/**
+ * Form callback
+ * Extra settings for Google+ Widget
+ */
+function _easy_social_admin_config_extra_googleplus() {
+  $form = array();
+
+  $form['easy_social_googleplus_title'] = array(
+    '#markup' => '<h4>' . t('Google+ widget settings') . '</h4>',
+  );
+
+  $form['easy_social_googleplus_info'] = array(
+    '#markup' => t('For more information check out the official Google+ widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'http://www.google.com/intl/en/webmasters/+1/button/index.html')),
+  );
+
+  $form['easy_social_googleplus_annotation'] = array(
+    '#type' => 'select',
+    '#title' => t('Annotation'),
+    '#description' => t('How the count will appear'),
+    '#options' => array(
+      'bubble' => 'bubble',
+      'inline' => 'inline',
+      'none' => 'none',
+    ),
+    '#default_value' => variable_get_value('easy_social_googleplus_annotation'),
+  );
+
+  return system_settings_form($form);
+}

@@ -93,9 +93,10 @@ function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang
     $lang = 'en_US';
   }
 
+  $annotation = variable_get_value('easy_social_googleplus_annotation');
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
   $markup = <<<GP
-<g:plusone size="{$type}" href="{$url}"></g:plusone>
+<g:plusone size="{$type}" href="{$url}" annotation="{$annotation}"></g:plusone>
 GP;
   return $markup;
 }
