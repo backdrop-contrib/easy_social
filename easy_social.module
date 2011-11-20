@@ -3,7 +3,6 @@
 /**
  * @file Easy social module.
  */
-
 /**
  * Easy Social Widget Type constants
  */
@@ -71,12 +70,12 @@ function easy_social_menu() {
     'file' => 'easy_social.admin.inc',
     'weight' => 2,
   );
-  
+
   $items['admin/config/content/easy_social/widget-extra/default'] = array(
     'title' => 'Extra Widget Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
-  
+
   $items['admin/config/content/easy_social/widget-extra/twitter'] = array(
     'title' => 'Twitter',
     'description' => 'Extra settings for Twitter',
@@ -144,27 +143,43 @@ function easy_social_variable_info() {
   }
 
   // custom settings for blocks
-  $variables['easy_social_override_block'] = array(
-    'title' => t('Easy Social Override Option for blocks'),
-    'default' => FALSE,
-    'group' => 'easy_social',
-    'token' => FALSE,
-  );
-
-  $variables['easy_social_override_block_type'] = array(
-    'title' => t('Easy Social Type of Buttons for blocks'),
+  $variables['easy_social_block_count'] = array(
+    'title' => t('Number of Easy Social blocks'),
     'default' => 1,
     'group' => 'easy_social',
     'token' => FALSE,
   );
 
-  $variables['easy_social_override_block_widgets'] = array(
-    'title' => t('Easy Social Network Buttons for blocks'),
-    'default' => array(),
-    'group' => 'easy_social',
-    'token' => FALSE,
-  );
-  
+  for ($i = 1; $i <= EASY_SOCIAL_BLOCK_MAX; ++$i) {
+    $variables["easy_social_block_{$i}_title"] = array(
+      'title' => t('Block title'),
+      'default' => '',
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+
+    $variables["easy_social_block_{$i}_override"] = array(
+      'title' => t('Override settings for this block'),
+      'default' => FALSE,
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+
+    $variables["easy_social_block_{$i}_type"] = array(
+      'title' => t('Widget Type'),
+      'default' => 1,
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+
+    $variables["easy_social_block_{$i}_widgets"] = array(
+      'title' => t('Enabled Widgets'),
+      'default' => array(),
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+  }
+
   // custom settings for Twitter
   $variables['easy_social_twitter_account_via'] = array(
     'title' => t('Easy Social Global Mention Account'),
