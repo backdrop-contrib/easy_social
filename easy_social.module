@@ -2,13 +2,18 @@
 
 /**
  * @file Easy social module.
- * 
  */
+
 /**
- * Define Widget Type constants
+ * Easy Social Widget Type constants
  */
 define('EASY_SOCIAL_WIDGET_HORIZONTAL', 0);
 define('EASY_SOCIAL_WIDGET_VERTICAL', 1);
+
+/**
+ * Easy Social max number of blocks
+ */
+define('EASY_SOCIAL_BLOCK_MAX', 10);
 
 module_load_include('inc', 'easy_social', 'easy_social.widgets');
 
