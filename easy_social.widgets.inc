@@ -47,7 +47,7 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={$appid}";
+  js.src = "//connect.facebook.net/{$lang}/all.js#xfbml=1&appId={$appid}";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 JS;
@@ -69,7 +69,7 @@ FB;
     $font = drupal_encode_path($font);
 
     $markup = <<<FB
-<iframe src="//www.facebook.com/plugins/like.php?href={$url}&amp;send=false&amp;layout={$type_box}&amp;width={$width}&amp;show_faces={$show_faces}&amp;action={$action}&amp;colorscheme={$color_scheme}&amp;font={$font}&amp;height={$height}&amp;appId={$appid}" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:{$width}px; height:{$height}px;" allowTransparency="true"></iframe>
+<iframe src="//www.facebook.com/plugins/like.php?locale={$lang}&amp;href={$url}&amp;send=false&amp;layout={$type_box}&amp;width={$width}&amp;show_faces={$show_faces}&amp;action={$action}&amp;colorscheme={$color_scheme}&amp;font={$font}&amp;height={$height}&amp;appId={$appid}" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:{$width}px; height:{$height}px;" allowTransparency="true"></iframe>
 FB;
   }
   return $markup;

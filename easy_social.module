@@ -622,3 +622,14 @@ function _easy_social_get_options() {
 
   return $options;
 }
+
+/**
+ * Implements template_preprocess_html().
+ * 
+ * This is specific to Facebook Widget
+ * Adds an XML namespace to the <html> tag of your document.
+ * This is necessary for XFBML to work in earlier versions of Internet Explorer.
+ */
+function easy_social_preprocess_html(&$variables) {
+  $variables['rdf_namespaces'] .= 'xmlns:fb="http://ogp.me/ns/fb#"';
+}
