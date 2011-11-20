@@ -127,6 +127,13 @@ function easy_social_variable_info() {
       'token' => FALSE,
     );
 
+    $variables["easy_social_{$type}_count"] = array(
+      'title' => t('Number of Easy Social fields for nodes of type %type', array('%type' => $typeobj->name)),
+      'default' => 1,
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+
     $variables["easy_social_{$type}_type"] = array(
       'title' => t('Easy Social widget type for nodes of %type', array('%type' => $typeobj->name)),
       'default' => 1,
@@ -150,6 +157,7 @@ function easy_social_variable_info() {
     'token' => FALSE,
   );
 
+  // this is done like this because calling variable_get_value() inside here = WSOD
   for ($i = 1; $i <= EASY_SOCIAL_BLOCK_MAX; ++$i) {
     $variables["easy_social_block_{$i}_title"] = array(
       'title' => t('Block title'),
@@ -228,14 +236,24 @@ function easy_social_field_extra_fields() {
 
   foreach ($node_types as $type => $typeobj) {
     if (variable_get_value("easy_social_{$type}_enable")) {
-      $extra['node'][$type] = array(
-        'display' => array(
-          'easy_social' => array(
-            'label' => t('Easy Social'),
-            'weight' => 100,
-          ),
-        ),
-      );
+      for ($i = 1, $num = variable_get_value("easy_social_{$type}_count"); $i <= $num; ++$i) {
+        if (isset($extra['node'][$type]['display'])) {
+          $extra['node'][$type]['display']["easy_social_{$i}"] = array(
+            'label' => t('Easy Social !num', array('!num' => $i)),
+            'weight' => 100 + $i,
+          );
+        }
+        else {
+          $extra['node'][$type] = array(
+            'display' => array(
+              "easy_social_{$i}" => array(
+                'label' => t('Easy Social !num', array('!num' => $i)),
+                'weight' => 100 + $i,
+              ),
+            ),
+          );
+        }
+      }
     }
   }
   return $extra;
@@ -250,17 +268,20 @@ function easy_social_node_view($node, $view_mode, $langcode) {
   $url = url('node/' . $node->nid, array('absolute' => TRUE));
 
   // check if easy social is enabled for this content type
-//  var_dump($node->type, "easy_social_{$node->type}_enable", variable_get_value("easy_social_{$node->type}_enable"));die;
   if (variable_get_value("easy_social_{$node->type}_enable")) {
     $type = variable_get_value("easy_social_{$node->type}_type");
     $enabled_widgets = variable_get_value("easy_social_{$node->type}_widgets");
     $widgets = _easy_social_render_widgets($url, $node->title, $type, $enabled_widgets);
+    $count = variable_get_value("easy_social_{$node->type}_count");
 
-    $node->content['easy_social'] = array(
-      '#theme' => 'easy_social_links',
-      '#social_links' => $widgets,
-      '#weight' => 999
-    );
+    // add as many extra fields as we've defined
+    for ($i = 1; $i <= $count; ++$i) {
+      $node->content["easy_social_{$i}"] = array(
+        '#theme' => 'easy_social_links',
+        '#social_links' => $widgets,
+        '#weight' => 100 + $i,
+      );
+    }
   }
 }
 
@@ -462,6 +483,14 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
     '#title' => t('Enable Easy Social'),
     '#description' => t('Check this option to enable easy social for this content type'),
     '#default_value' => variable_get_value("easy_social_{$type->type}_enable"),
+  );
+
+  $form['easy_social']["easy_social_{$type->type}_count"] = array(
+    '#type' => 'select',
+    '#title' => t('Number of Easy Social fields'),
+    '#description' => t('You can add more than one Easy Social field to your nodes. This is useful, for example, to add the widget both at top and at the bottom of a node.'),
+    '#options' => array('1' => 1, '2' => 2),
+    '#default_value' => variable_get_value("easy_social_{$type->type}_count"),
   );
 
   $form['easy_social']["easy_social_{$type->type}_type"] = array(
