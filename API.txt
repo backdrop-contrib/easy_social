@@ -1,7 +1,9 @@
 
-Context 3.x API
+Easy Social 7.x-2.x API
 ---------------
 The following is an overview of using the Easy Social API.
+
+For a better reading experience, try the handbook on Drupal.org: http://drupal.org/node/1347326
 
 
 DEFINING NEW WIDGET TYPES
