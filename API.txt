@@ -16,8 +16,12 @@ function mymodule_easy_social_widget() {
     'my_custom_share_button' => array(
       'name' => 'My Custom Share Button', // apears on admin pages only
       'markup' => '_mymodule_custom_share_button_markup', // callback function that returns widget markup
-      'script' => 'http://mycustomshare.com/widget.js', // javascript include,
-      'script_type' => 'external', // 'external' or 'inline', defaults to 'external'
+      'scripts' => array(
+        array(
+          'path' => 'http://mycustomshare.com/widget.js', // javascript include,
+          'type' => 'external', // 'external', 'module' or 'inline', defaults to 'external'
+        ),
+      ),
     ),
   );
 }
