@@ -9,9 +9,9 @@ For a better reading experience, try the handbook on Drupal.org: http://drupal.o
 DEFINING NEW WIDGET TYPES
 --------------------------
 
-- Implement hook_easy_social_widgets():
+- Implement hook_easy_social_widget():
 
-function mymodule_easy_social_widgets() {
+function mymodule_easy_social_widget() {
   return array(
     'my_custom_share_button' => array(
       'name' => 'My Custom Share Button', // apears on admin pages only
