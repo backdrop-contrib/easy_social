@@ -165,7 +165,7 @@ data-url="{$url}"
 data-count="{$type}"
 data-lang = "{$lang}"
 data-via="{$account_via}" 
-data-related="{$account_related}:{$account_related_description}" 
+data-related="{$account_related}:{$account_related_description}"
 data-text="{$title}">Tweet</a>
 TT;
   return $markup;

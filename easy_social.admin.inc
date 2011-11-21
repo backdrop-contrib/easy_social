@@ -113,7 +113,7 @@ function _easy_social_admin_config_ignore_paths() {
   $form['easy_social_ignore_paths'] = array(
     '#type' => 'textarea',
     '#title' => t('Ignore paths'),
-    '#description' => t('Every URL placed here, will not have any Social links.'),
+    '#description' => t('Any URL placed here will not have any Easy Social widgets. Use <front> for the front page'),
     '#default_value' => variable_get_value('easy_social_ignore_paths'),
   );
 

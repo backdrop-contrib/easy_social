@@ -114,7 +114,7 @@ function easy_social_menu() {
  */
 function easy_social_variable_info() {
   $variables = array();
-  
+
   // global settings
   $variables['easy_social_ignore_paths'] = array(
     'title' => t('Easy Social Global Ignore Paths'),
@@ -236,78 +236,78 @@ function easy_social_variable_info() {
     'title' => t('Facebook Application ID'),
     'default' => '',
     'group' => 'easy_social',
-    'token' => FALSE,    
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_widget_type'] = array(
     'title' => t('Facebook widget type'),
     'default' => 'iframe',
     'group' => 'easy_social',
-    'token' => FALSE,    
+    'token' => FALSE,
   );
-  
+
   $variables['easy_social_facebook_send_button'] = array(
     'title' => t('Send Button (XFBML Only)'),
     'default' => FALSE,
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
-  
+
   $variables['easy_social_facebook_width_vertical'] = array(
     'title' => t('Show faces'),
     'default' => '48',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_width_horizontal'] = array(
     'title' => t('Show faces'),
     'default' => '88',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_show_faces'] = array(
     'title' => t('Show faces'),
     'default' => TRUE,
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_verb'] = array(
     'title' => t('Verb to display'),
     'default' => 'like',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_color_scheme'] = array(
     'title' => t('Color Scheme'),
     'default' => 'light',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_facebook_font'] = array(
     'title' => t('Font'),
     'default' => 'default',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
-  
+
   // custom settings for google+
   $variables['easy_social_googleplus_annotation'] = array(
     'title' => t('Annotation'),
     'default' => 'bubble',
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   $variables['easy_social_googleplus_html5'] = array(
     'title' => t('HTML5 valid syntax'),
     'default' => TRUE,
     'group' => 'easy_social',
-    'token' => FALSE,        
+    'token' => FALSE,
   );
 
   return $variables;
@@ -419,7 +419,7 @@ function easy_social_get_widgets() {
 }
 
 /**
- * Implements hook_easy_social_widgets().
+ * Implements hook_easy_social_widget().
  */
 function easy_social_easy_social_widget() {
   return array(
@@ -430,20 +430,32 @@ function easy_social_easy_social_widget() {
     'googleplus' => array(
       'name' => 'Google+',
       'markup' => '_easy_social_widget_googleplus_markup',
-      'script' => 'https://apis.google.com/js/plusone.js',
-      'script_type' => 'external',
+      'scripts' => array(
+        array(
+          'path' => 'https://apis.google.com/js/plusone.js',
+          'type' => 'external',
+        ),
+      ),
     ),
     'linkedin' => array(
       'name' => 'LinkedIn',
       'markup' => '_easy_social_widget_linkedin_markup',
-      'script' => 'http://platform.linkedin.com/in.js',
-      'script_type' => 'external',
+      'scripts' => array(
+        array(
+          'path' => 'http://platform.linkedin.com/in.js',
+          'type' => 'external',
+        ),
+      ),
     ),
     'twitter' => array(
       'name' => 'Twitter',
       'markup' => '_easy_social_widget_twitter_markup',
-      'script' => 'http://platform.twitter.com/widgets.js',
-      'script_type' => 'external',
+      'scripts' => array(
+        array(
+          'path' => 'http://platform.twitter.com/widgets.js',
+          'type' => 'external',
+        ),
+      ),
     ),
   );
 }
@@ -547,12 +559,19 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
     $social_links = array();
     $widgets = easy_social_get_widgets();
 
-    //Load Js files and generate respective markups
+    // process enabled widgets
     foreach ($enabled_widgets as $service) {
-      // add external javascript, if any
-      if (isset($widgets[$service]['script'])) {
-        $script_type = (isset($widgets[$service]['script_type'])) ? $widgets[$service]['script_type'] : 'external';
-        drupal_add_js($widgets[$service]['script'], $script_type);
+      // add javascript includes, if any
+      if (isset($widgets[$service]['scripts']) && is_array($widgets[$service]['scripts'])) {
+        foreach ($widgets[$service]['scripts'] as $script) {
+          $script_type = (isset($script['type'])) ? $script['type'] : 'external';
+          if ($script_type !== 'module') {
+            drupal_add_js($script['path'], $script_type);
+          }
+          else {
+            drupal_add_js($script['path']);
+          }
+        }
       }
 
       // add widget markup
