@@ -22,6 +22,12 @@ function mymodule_easy_social_widget() {
           'type' => 'external', // 'external', 'module' or 'inline', defaults to 'external'
         ),
       ),
+      'styles' => array(
+        array(
+          'path' => drupal_get_path('module', 'easy_social') . '/css/easy_social_twitter.css', // css include - specify full path
+          'type' => 'external', // 'external', 'module' or 'inline', defaults to 'external'
+        ),
+      ),
     ),
   );
 }

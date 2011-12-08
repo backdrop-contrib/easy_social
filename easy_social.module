@@ -455,6 +455,12 @@ function easy_social_easy_social_widget() {
           'type' => 'external',
         ),
       ),
+      'styles' => array(
+        array(
+          'path' => drupal_get_path('module', 'easy_social') . '/css/easy_social_twitter.css',
+          'type' => 'module',
+        ),
+      ),
     ),
   );
 }
@@ -569,6 +575,19 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
           }
           else {
             drupal_add_js($script['path']);
+          }
+        }
+      }
+      
+      // add css includes, if any
+      if (isset($widgets[$service]['styles']) && is_array($widgets[$service]['styles'])) {
+        foreach ($widgets[$service]['styles'] as $style) {
+          $style_type = (isset($style['type'])) ? $style['type'] : 'external';
+          if ($style_type !== 'module') {
+            drupal_add_js($style['path'], $style_type);
+          }
+          else {
+            drupal_add_js($style['path']);
           }
         }
       }
