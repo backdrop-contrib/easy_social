@@ -563,7 +563,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
     $social_links = array();
     $widgets = easy_social_get_widgets();
-
+    
     // process enabled widgets
     foreach ($enabled_widgets as $service) {
       // add javascript includes, if any
@@ -584,10 +584,10 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
         foreach ($widgets[$service]['styles'] as $style) {
           $style_type = (isset($style['type'])) ? $style['type'] : 'external';
           if ($style_type !== 'module') {
-            drupal_add_js($style['path'], $style_type);
+            drupal_add_css($style['path'], $style_type);
           }
           else {
-            drupal_add_js($style['path']);
+            drupal_add_css($style['path']);
           }
         }
       }
