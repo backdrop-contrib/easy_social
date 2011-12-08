@@ -6,5 +6,3 @@ configure = admin/config/content/easysocial
 tags[] = social
 tags[] = share
 dependencies[] = variable
-dependencies[] = variable_realm
-files[] = easy_social.module
