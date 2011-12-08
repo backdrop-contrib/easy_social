@@ -152,6 +152,7 @@ function _easy_social_admin_config_extra_twitter() {
   $form['easy_social_twitter_account_via'] = array(
     '#type' => 'textfield',
     '#title' => t('Mention account'),
+    '#description' => t('Type the account name without the @'),
     '#size' => 40,
     '#maxlength' => 255,
     '#default_value' => variable_get_value('easy_social_twitter_account_via'),
@@ -160,6 +161,7 @@ function _easy_social_admin_config_extra_twitter() {
   $form['easy_social_twitter_account_related'] = array(
     '#type' => 'textfield',
     '#title' => t('Related account'),
+    '#description' => t('Type the account name without the @'),
     '#size' => 40,
     '#maxlength' => 255,
     '#default_value' => variable_get_value('easy_social_twitter_account_related'),
