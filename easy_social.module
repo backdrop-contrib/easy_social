@@ -317,13 +317,12 @@ function easy_social_variable_info() {
  * Implements hook_theme().
  */
 function easy_social_theme() {
-  $theme = array(
+  return array(
     'easy_social_links' => array(
       'template' => 'easy-social-links',
       'variables' => array('social_links' => array()),
     ),
   );
-  return $theme;
 }
 
 /**
