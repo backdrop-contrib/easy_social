@@ -14,7 +14,7 @@ define('EASY_SOCIAL_WIDGET_VERTICAL', 1);
  */
 define('EASY_SOCIAL_BLOCK_MAX', 10);
 
-module_load_include('inc', 'easy_social', 'easy_social.widgets');
+module_load_include('inc', 'easy_social', 'includes/easy_social.widgets');
 
 /**
  * Implements hook_permission().
@@ -40,13 +40,13 @@ function easy_social_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_easy_social_admin_config_main'),
     'access arguments' => array('administer easy social'),
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
   );
 
   $items['admin/config/content/easy_social/default'] = array(
     'title' => 'Easy Social Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
   );
 
   $items['admin/config/content/easy_social/paths-ignore'] = array(
@@ -56,7 +56,7 @@ function easy_social_menu() {
     'page arguments' => array('_easy_social_admin_config_ignore_paths'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
     'weight' => 1,
   );
 
@@ -67,7 +67,7 @@ function easy_social_menu() {
     'page arguments' => array('_easy_social_admin_config_extra'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
     'weight' => 2,
   );
 
@@ -83,7 +83,7 @@ function easy_social_menu() {
     'page arguments' => array('_easy_social_admin_config_extra_twitter'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
   );
 
   $items['admin/config/content/easy_social/widget-extra/facebook'] = array(
@@ -93,7 +93,7 @@ function easy_social_menu() {
     'page arguments' => array('_easy_social_admin_config_extra_facebook'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
   );
 
   $items['admin/config/content/easy_social/widget-extra/googleplus'] = array(
@@ -103,7 +103,7 @@ function easy_social_menu() {
     'page arguments' => array('_easy_social_admin_config_extra_googleplus'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'easy_social.admin.inc',
+    'file' => 'includes/easy_social.admin.inc',
   );
 
   return $items;
@@ -319,7 +319,7 @@ function easy_social_variable_info() {
 function easy_social_theme() {
   return array(
     'easy_social_links' => array(
-      'template' => 'easy-social-links',
+      'template' => 'templates/easy_social-links',
       'variables' => array('social_links' => array()),
     ),
   );
