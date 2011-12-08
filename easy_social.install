@@ -18,12 +18,20 @@ function easy_social_uninstall() {
 
 /**
  * Implements hook_update_N().
+ * 
+ * Handles upgrade path for 7.x-1.0 to 7.x-2.0
  */
 function easy_social_update_7200() {
-  // delete old variable names
+  // find all current variables
   $result = db_query("SELECT name, value FROM variable WHERE name LIKE 'easysocial%'");
 
   foreach ($result as $row) {
+    // get value
+    $value = variable_get($row->name);
+    
+    // @TODO save new variables
+    
+    // finally, get rid of the old variable
     variable_del($row->name);
   }
 }
