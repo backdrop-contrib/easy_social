@@ -3,7 +3,7 @@ div.easy_social_box {
 }
 
 div.easy_social_box.vertical {
-  height: 62px;
+  height: 68px;
 }
 
 .easy_social_box div.easy_social-widget {
@@ -18,7 +18,7 @@ div.easy_social_box.vertical {
   margin-right: 0;
 }
 
-.easy_social_box.vertical span.easy_social-widget {
+.easy_social_box.vertical div.easy_social-widget {
   width: 58px;
   height: 62px;
 }
