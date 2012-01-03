@@ -38,7 +38,7 @@ function _easy_social_admin_config_main() {
     '#default_value' => variable_get_value('easy_social_global_widgets'),
   );
 
-  // block settings
+  // Block settings
 
   $form['block_settings'] = array(
     '#type' => 'fieldset',
@@ -56,7 +56,6 @@ function _easy_social_admin_config_main() {
     '#description' => t('You can create up to !num Easy Social blocks', array('!num' => EASY_SOCIAL_BLOCK_MAX)),
     '#options' => range(0, EASY_SOCIAL_BLOCK_MAX),
     '#default_value' => $num_blocks,
-    // @TODO show/hide fieldsets for block specific settings via ajax
   );
 
   for ($i = 1; $i <= $num_blocks; ++$i) {
@@ -89,14 +88,14 @@ function _easy_social_admin_config_main() {
         EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
         EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
       ),
-      '#default_value' => variable_get_value("easy_social_block_{$i}_type")
+      '#default_value' => _easy_social_variable_get_value("easy_social_block_{$i}_type")
     );
 
     $form['block_settings']["easy_social_block_{$i}"]["easy_social_block_{$i}_widgets"] = array(
       '#type' => 'checkboxes',
       '#title' => t('Enabled Widgets'),
       '#options' => $options,
-      '#default_value' => variable_get_value("easy_social_block_{$i}_widgets"),
+      '#default_value' => _easy_social_variable_get_value("easy_social_block_{$i}_widgets"),
     );
   }
 

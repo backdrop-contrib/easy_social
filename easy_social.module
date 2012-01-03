@@ -641,14 +641,14 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
       EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
       EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
     ),
-    '#default_value' => variable_get_value("easy_social_{$type->type}_type")
+    '#default_value' => _easy_social_variable_get_value("easy_social_{$type->type}_type")
   );
 
   $form['easy_social']["easy_social_{$type->type}_widgets"] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Widgets'),
     '#options' => $options,
-    '#default_value' => variable_get_value("easy_social_{$type->type}_widgets"),
+    '#default_value' => _easy_social_variable_get_value("easy_social_{$type->type}_widgets"),
   );
 }
 
@@ -697,4 +697,27 @@ function _easy_social_get_options() {
  */
 function easy_social_preprocess_html(&$variables) {
   $variables['rdf_namespaces'] .= 'xmlns:fb="http://ogp.me/ns/fb#"';
+}
+
+/**
+ * Helper function to return default values, keeping global settings in mind
+ * 
+ * @param string $name 
+ * @return mixed
+ */
+function _easy_social_variable_get_value($name) {
+  $value = variable_get($name);
+  
+  if (isset($value)) {
+    return $value;
+  } else if (strpos($name, '_type') !== FALSE) {
+    // get default
+    return variable_get_value('easy_social_global_type');
+  } else if (strpos($name, '_widgets') !== FALSE) {
+    // get default
+    return variable_get_value('easy_social_global_widgets');
+  }
+  
+  // fallback
+  return variable_get_value($name);
 }
