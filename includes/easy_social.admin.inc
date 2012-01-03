@@ -332,3 +332,102 @@ function _easy_social_admin_config_extra_googleplus() {
 
   return system_settings_form($form);
 }
+
+/**
+ * Page callback
+ * Displays Easy Social Summary
+ * 
+ * @see easy_social_menu().
+ */
+function _easy_social_admin_summary() {
+  $page = '';
+
+  // Global settings
+  $page .= '<h4>' . t('Global Settings') . '</h4>';
+  $page .= '<table>';
+  $type = (variable_get_value('easy_social_global_type') == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
+  $page .= '<tr><td>' . t('Global Widget Type') . '</td><td>' . $type . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $widgets = variable_get_value('easy_social_global_widgets');
+  $widget_info = easy_social_get_widgets();
+  $widget_list = array();
+  
+  foreach ($widgets as $widget) {
+    $widget_list[] = $widget_info[$widget]['name'];
+  }
+  
+  $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
+  $page .= '<tr><td>' . t('Global Widgets') . '</td><td>' . $widget_list . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $ignore = check_plain(variable_get_value('easy_social_ignore_paths'));
+  $page .= '<tr><td>' . t('Ignore Paths') . '</td><td>' . $ignore . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social/ignore-paths') . '</td></tr>';
+  $page .= '</table>';
+
+  // Content Type settings
+  $page .= '<h4>' . t('Content Type Settings') . '</h4>';
+  $page .= '<table>';
+  $node_types = node_type_get_types();
+  foreach ($node_types as $type => $typeobj) {
+    $enabled = variable_get_value("easy_social_{$type}_enable");
+    $enabled_string = ($enabled == 1) ? '<strong>' . t('Enabled')  . '</strong>': t('Disabled');
+    $page .= '<tr><td>' . $typeobj->name . '</td><td>' . $enabled_string . '</td><td>' . l(t('configure'), 'admin/structure/types/manage/' . $type) . '</td></tr>';
+    
+    if ($enabled == 1) {
+      $count = variable_get_value("easy_social_{$type}_count");
+      $page .= '<tr><td> -- ' . t('Number of fields') . '</td><td>' . $count . '</td><td></td></tr>';
+      $type = (_easy_social_variable_get_value("easy_social_{$type}_type") == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
+      $page .= '<tr><td> -- ' . t('Widget Type') . '</td><td>' . $type . '</td><td></td></tr>';
+      $widgets = _easy_social_variable_get_value("easy_social_{$type}_widgets");
+      $widget_list = array();
+
+      foreach ($widgets as $widget) {
+        $widget_list[] = $widget_info[$widget]['name'];
+      }
+
+      $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
+      $page .= '<tr><td> -- ' . t('Widgets') . '</td><td>' . $widget_list . '</td><td></td></tr>';
+    }
+  }
+  $page .= '</table>';
+  
+  // Block settings
+  $page .= '<h4>' . t('Block Settings') . '</h4>';
+  $page .= '<table>';
+  $count = variable_get_value('easy_social_block_count');
+  $page .= '<tr><td>' . t('Number of Blocks') . '</td><td>' . $count . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $page .= '</table>';
+  
+  if ($count > 0) {
+    for ($i = 1; $i <= $count; ++$i) {
+      $page .= '<table>';
+      $page .= '<tr><td colspan="2"><strong>' . t('Block') . ' #' . $i . '</strong></td></tr>';
+      $title = variable_get_value("easy_social_block_{$i}_title");
+
+      if (empty($title)) {
+        $title = check_plain('<empty>');
+      }
+      
+      $override = variable_get_value("easy_social_block_{$i}_override");
+      $override_string = ($override == 1) ? t('Yes') : t('No');
+
+      $page .= '<tr><td>' . t('Title') . '</td><td>' . $title . '</td></tr>';
+      $page .= '<tr><td>' . t('Override Settings') . '</td><td>' . $override_string . '</td></tr>';
+      
+      if ($override == 1) {
+        $type = (variable_get_value("easy_social_block_{$i}_type") == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
+        $widgets = variable_get_value("easy_social_block_{$i}_widgets");
+        $widget_list = array();
+
+        foreach ($widgets as $widget) {
+          $widget_list[] = $widget_info[$widget]['name'];
+        }
+
+        $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
+        $page .= '<tr><td>' . t('Widgets') . '</td><td>' . $widget_list . '</td></tr>';
+      }
+      $page .= '</table>';
+    }
+  }
+
+  $page .= '</table>';
+  
+  return $page;
+}
