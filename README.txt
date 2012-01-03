@@ -9,7 +9,7 @@ Easy social is now much more than simply a quick way of adding Twitter, Facebook
   - You can now define your own widgets using hook_easy_social_widgets(), more information here: http://drupal.org/node/1347326
   - All widgets can now define extensive customization settings
   - All widgets can now be localized easily (if the service supports it)
-  - Easy Social is available both as extra fields on nodes and as blocks
+  - Easy Social is available both as extra fields on nodes and also as blocks
 
 
 -- REQUIREMENTS --
