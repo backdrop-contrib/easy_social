@@ -1,8 +1,9 @@
 <?php
-
 /**
- * @file Easy social module.
+ * @file
+ * Easy social module.
  */
+
 /**
  * Easy Social Widget Type constants
  */
@@ -44,7 +45,7 @@ function easy_social_menu() {
   );
 
   $items['admin/config/content/easy_social/default'] = array(
-    'title' => 'Easy Social Settings',
+    'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',
   );
@@ -61,7 +62,7 @@ function easy_social_menu() {
   );
 
   $items['admin/config/content/easy_social/widget-extra'] = array(
-    'title' => 'Extra Widget Settings',
+    'title' => 'Extra Widgets',
     'description' => 'Extra settings for widgets',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_easy_social_admin_config_extra'),
@@ -69,6 +70,16 @@ function easy_social_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',
     'weight' => 2,
+  );
+  
+  $items['admin/config/content/easy_social/summary'] = array(
+    'title' => 'Summary',
+    'description' => 'Easy Social Summary',
+    'page callback' => '_easy_social_admin_summary',
+    'access arguments' => array('administer easy social'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/easy_social.admin.inc',
+    'weight' => 3,
   );
 
   $items['admin/config/content/easy_social/widget-extra/default'] = array(
@@ -658,10 +669,19 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
  * @see easy_social_form_node_type_form_alter().
  */
 function easy_social_node_type_form_submit(&$form, &$form_state) {
+  $clear_caches = FALSE;
+
   foreach ($form_state['values'] as $name => $value) {
     if (strpos($name, 'easy_social') === 0) {
       variable_set($name, $value);
+      if (strpos($name, 'enable') !== FALSE && $value == 1) {
+        $clear_caches = TRUE;
+      }
     }
+  }
+  
+  if ($clear_caches === TRUE) {
+    cache_clear_all();
   }
 }
 
