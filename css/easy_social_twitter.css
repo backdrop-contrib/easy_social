@@ -1,7 +1,0 @@
-/* Easy Social styles */
-
-/* fix weird Twitter widget positioning */
-span.easy_social-widget.easy_social-widget-twitter {
-  position: relative;
-  top: 23px;
-}

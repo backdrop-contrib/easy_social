@@ -331,7 +331,7 @@ function easy_social_theme() {
   return array(
     'easy_social_links' => array(
       'template' => 'templates/easy_social-links',
-      'variables' => array('social_links' => array()),
+      'variables' => array('widgets' => array(), 'widget_type' => NULL),
     ),
   );
 }
@@ -388,7 +388,8 @@ function easy_social_node_view($node, $view_mode, $langcode) {
     for ($i = 1; $i <= $count; ++$i) {
       $node->content["easy_social_{$i}"] = array(
         '#theme' => 'easy_social_links',
-        '#social_links' => $widgets,
+        '#widgets' => $widgets,
+        '#widget_type' => $type,
         '#weight' => 100 + $i,
       );
     }
@@ -466,12 +467,6 @@ function easy_social_easy_social_widget() {
           'type' => 'external',
         ),
       ),
-      'styles' => array(
-        array(
-          'path' => drupal_get_path('module', 'easy_social') . '/css/easy_social_twitter.css',
-          'type' => 'module',
-        ),
-      ),
     ),
   );
 }
@@ -522,7 +517,8 @@ function easy_social_block_view($delta = '') {
         'subject' => variable_get_value("easy_social_block_{$i}_title"),
         'content' => array(
           '#theme' => 'easy_social_links',
-          '#social_links' => $widgets,
+          '#widgets' => $widgets,
+          '#widget_type' => $type,
         ),
       );
     }
@@ -553,7 +549,7 @@ function _easy_social_page_ignore() {
 }
 
 /**
- * 
+ * Return an array of rendered Easy Social Widgets
  * 
  * @param string $url
  * @param string $title 
@@ -562,6 +558,8 @@ function _easy_social_page_ignore() {
  * @return array
  */
 function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL) {
+  drupal_add_css(drupal_get_path('module', 'easy_social') . '/css/easy_social.css');
+
   if (!_easy_social_page_ignore()) {
     // fallback to default settings
     if (!isset($type)) {
@@ -572,7 +570,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
       $enabled_widgets = variable_get_value('easy_social_global_widgets');
     }
 
-    $social_links = array();
+    $widget_links = array();
     $widgets = easy_social_get_widgets();
     
     // process enabled widgets
@@ -605,10 +603,10 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
       // add widget markup
       if (isset($widgets[$service]['markup'])) {
-        $social_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title);
+        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title);
       }
     }
-    return $social_links;
+    return $widget_links;
   }
 }
 
