@@ -135,14 +135,14 @@ function easy_social_variable_info() {
   );
 
   $variables['easy_social_global_type'] = array(
-    'title' => t('Easy Social Global Type of Buttons'),
+    'title' => t('Easy Social Global Widget Type'),
     'default' => 1,
     'group' => 'easy_social',
     'token' => FALSE,
   );
 
   $variables['easy_social_global_widgets'] = array(
-    'title' => t('Easy Social Global Type of Network Buttons'),
+    'title' => t('Easy Social Global Widgets'),
     'default' => array('twitter', 'facebook', 'googleplus', 'linkedin'),
     'group' => 'easy_social',
     'token' => FALSE,
@@ -167,14 +167,14 @@ function easy_social_variable_info() {
     );
 
     $variables["easy_social_{$type}_type"] = array(
-      'title' => t('Easy Social widget type for nodes of %type', array('%type' => $typeobj->name)),
+      'title' => t('Easy Social Widget type for nodes of %type', array('%type' => $typeobj->name)),
       'default' => 1,
       'group' => 'easy_social',
       'token' => FALSE,
     );
 
     $variables["easy_social_{$type}_widgets"] = array(
-      'title' => t('Easy Social widgets for nodes of %type', array('%type' => $typeobj->name)),
+      'title' => t('Easy Social Widgets for nodes of %type', array('%type' => $typeobj->name)),
       'default' => array(),
       'group' => 'easy_social',
       'token' => FALSE,
