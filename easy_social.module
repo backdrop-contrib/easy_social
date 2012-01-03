@@ -50,7 +50,7 @@ function easy_social_menu() {
     'file' => 'includes/easy_social.admin.inc',
   );
 
-  $items['admin/config/content/easy_social/paths-ignore'] = array(
+  $items['admin/config/content/easy_social/ignore-paths'] = array(
     'title' => 'Ignore Paths',
     'description' => 'Global paths to ignore and do not display Easy Social',
     'page callback' => 'drupal_get_form',
