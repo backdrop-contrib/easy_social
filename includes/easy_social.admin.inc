@@ -83,7 +83,16 @@ function easy_social_admin_config_main() {
       '#default_value' => variable_get_value("easy_social_block_{$i}_override"),
     );
 
-    $form['block_settings']["easy_social_block_{$i}"]["easy_social_block_{$i}_type"] = array(
+    $form['block_settings']["easy_social_block_{$i}"]['override'] = array(
+      '#type' => 'container',
+      '#states' => array(
+        'invisible' => array(
+          "input[name=\"easy_social_block_{$i}_override\"]" => array('checked' =>FALSE),
+        ),
+      ),
+    );
+      
+    $form['block_settings']["easy_social_block_{$i}"]['override']["easy_social_block_{$i}_type"] = array(
       '#type' => 'radios',
       '#title' => t('Widget Type'),
       '#options' => array(
@@ -93,7 +102,7 @@ function easy_social_admin_config_main() {
       '#default_value' => _easy_social_variable_get_value("easy_social_block_{$i}_type")
     );
 
-    $form['block_settings']["easy_social_block_{$i}"]["easy_social_block_{$i}_widgets"] = array(
+    $form['block_settings']["easy_social_block_{$i}"]['override']["easy_social_block_{$i}_widgets"] = array(
       '#type' => 'checkboxes',
       '#title' => t('Enabled Widgets'),
       '#options' => $options,
