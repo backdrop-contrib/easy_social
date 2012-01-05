@@ -24,7 +24,11 @@ function easy_social_permission() {
   return array(
     'administer easy social' => array(
       'title' => t('Administer Easy Social'),
-      'description' => t('Manage Easy Social permissions.'),
+      'description' => t('Configure Easy Social module'),
+    ),
+    'use easy social wizard' => array(
+      'title' => t('Use Easy Social Wizard'),
+      'description' => t('Access the Easy Social Wizard'),
     ),
   );
 }
@@ -88,7 +92,7 @@ function easy_social_menu() {
     'description' => 'Easy Social Wizard',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('easy_social_admin_wizard'),
-    'access arguments' => array('administer easy social'),
+    'access arguments' => array('use easy social wizard'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',
     'weight' => 4,
