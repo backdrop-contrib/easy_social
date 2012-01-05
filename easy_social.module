@@ -692,6 +692,8 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
 /**
  * Submit callback
  * 
+ * We have to clear caches after changing the number of Easy Social display widgets
+ *
  * @see easy_social_form_node_type_form_alter().
  */
 function easy_social_node_type_form_submit(&$form, &$form_state) {
@@ -707,7 +709,10 @@ function easy_social_node_type_form_submit(&$form, &$form_state) {
   }
 
   if ($clear_caches === TRUE) {
-    cache_clear_all();
+    // Flush all caches; no need to re-implement this.
+    module_load_include('inc', 'system', 'system.admin');
+    $form = $form_state = array();
+    system_clear_cache_submit($form, $form_state);
   }
 }
 
