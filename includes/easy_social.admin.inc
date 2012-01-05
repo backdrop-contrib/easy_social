@@ -520,3 +520,86 @@ function easy_social_admin_order_submit($form, &$form_state) {
   $order = array_values($order);
   variable_set('easy_social_global_order', $order);
 }
+
+/**
+ * Theme callback
+ * For draggable tables in Easy Social settings
+ * 
+ * @see easy_social_theme().
+ */
+function theme_easy_social_admin_order($variables) {
+  $output = '';
+  $form = $variables['form'];
+  $header = array('Title', 'Weight');
+  $table_id = 'easy_social_widget_order';
+  
+  foreach (element_children($form['widgets']) as $id) {
+    $data = array();
+    $data[] = $form['widgets'][$id]['#widget'];
+    $data[] = drupal_render($form['widgets'][$id]['weight']);
+    $rows[] = array('data' => $data, 'class' => array('draggable'));
+  }
+  
+  drupal_add_tabledrag($table_id, 'order', 'sibling', 'weight_group');
+  
+  $output .= theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => $table_id),
+  ));
+
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * Form callback
+ * Wizard for quickly adding Easy Social to Content Types
+ * 
+ * @see easy_social_menu().
+ */
+function easy_social_admin_wizard() {
+  $form = array();
+  $node_types = node_type_get_types();
+  
+  $form['types'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Content Types'),
+    '#collapsible' => FALSE,
+    '#description' => t('Enable Easy Social for the following content types:'),
+  );
+  
+  foreach ($node_types as $type => $typeobj) {
+    $form['types']["easy_social_{$type}"] = array(
+      '#title' => $typeobj->name,
+      '#type' => 'checkbox',
+      '#default_value' => variable_get("easy_social_{$type}_enable"),
+    );
+  }
+  
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  
+  return $form;
+}
+
+/**
+ * Submit callback
+ * 
+ * @see easy_social_admin_wizard().
+ */
+function easy_social_admin_wizard_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $k => $v) {
+    if (strpos($k, 'easy_social_') !== FALSE) {
+      $varname = "{$k}_enable";
+
+      if ($v === 1) {
+        variable_set($varname, 1);
+      } else {
+        variable_set($varname, 0);
+      }
+    }
+  }
+}

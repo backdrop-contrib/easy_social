@@ -83,6 +83,17 @@ function easy_social_menu() {
     'weight' => 3,
   );
 
+  $items['admin/config/content/easy_social/wizard'] = array(
+    'title' => 'Wizard',
+    'description' => 'Easy Social Wizard',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easy_social_admin_wizard'),
+    'access arguments' => array('administer easy social'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/easy_social.admin.inc',
+    'weight' => 4,
+  );
+
   $items['admin/config/content/easy_social/summary'] = array(
     'title' => 'Summary',
     'description' => 'Easy Social Summary',
@@ -91,7 +102,7 @@ function easy_social_menu() {
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',
-    'weight' => 4,
+    'weight' => 5,
   );
 
   $items['admin/config/content/easy_social/widget-extra/default'] = array(
@@ -781,35 +792,4 @@ function _easy_social_variable_get_value($name) {
 
   // fallback
   return variable_get_value($name);
-}
-
-/**
- * Theme callback
- * For draggable tables in Easy Social settings
- * 
- * @see easy_social_theme().
- */
-function theme_easy_social_admin_order($variables) {
-  $output = '';
-  $form = $variables['form'];
-  $header = array('Title', 'Weight');
-  $table_id = 'easy_social_widget_order';
-  
-  foreach (element_children($form['widgets']) as $id) {
-    $data = array();
-    $data[] = $form['widgets'][$id]['#widget'];
-    $data[] = drupal_render($form['widgets'][$id]['weight']);
-    $rows[] = array('data' => $data, 'class' => array('draggable'));
-  }
-  
-  drupal_add_tabledrag($table_id, 'order', 'sibling', 'weight_group');
-  
-  $output .= theme('table', array(
-    'header' => $header,
-    'rows' => $rows,
-    'attributes' => array('id' => $table_id),
-  ));
-
-  $output .= drupal_render_children($form);
-  return $output;
 }
