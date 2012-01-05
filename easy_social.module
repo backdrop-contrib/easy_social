@@ -48,6 +48,15 @@ function easy_social_menu() {
     'file' => 'includes/easy_social.admin.inc',
   );
 
+  $items['admin/config/content/easy_social_wizard'] = array(
+    'title' => 'Easy Social Wizard',
+    'description' => 'Quickly enable Easy Social for your Content Types',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easy_social_admin_wizard'),
+    'access arguments' => array('use easy social wizard'),
+    'file' => 'includes/easy_social.admin.inc',
+  );
+  
   $items['admin/config/content/easy_social/default'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -87,17 +96,6 @@ function easy_social_menu() {
     'weight' => 3,
   );
 
-  $items['admin/config/content/easy_social/wizard'] = array(
-    'title' => 'Wizard',
-    'description' => 'Easy Social Wizard',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('easy_social_admin_wizard'),
-    'access arguments' => array('use easy social wizard'),
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'includes/easy_social.admin.inc',
-    'weight' => 4,
-  );
-
   $items['admin/config/content/easy_social/summary'] = array(
     'title' => 'Summary',
     'description' => 'Easy Social Summary',
@@ -106,7 +104,7 @@ function easy_social_menu() {
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',
-    'weight' => 5,
+    'weight' => 4,
   );
 
   $items['admin/config/content/easy_social/widget-extra/default'] = array(
