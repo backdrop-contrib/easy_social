@@ -86,7 +86,8 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/summary'] = array(
     'title' => 'Summary',
     'description' => 'Easy Social Summary',
-    'page callback' => 'easy_social_admin_summary',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easy_social_admin_summary'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'includes/easy_social.admin.inc',

@@ -336,19 +336,25 @@ function easy_social_admin_config_extra_googleplus() {
 }
 
 /**
- * Page callback
+ * Form callback
  * Displays Easy Social Summary
  * 
  * @see easy_social_menu().
  */
 function easy_social_admin_summary() {
-  $page = '';
-
+  $form = array();
+  
   // Global settings
-  $page .= '<h4>' . t('Global Settings') . '</h4>';
-  $page .= '<table>';
+  $form['global_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Global Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  
+  $table = '<table>';
   $type = (variable_get_value('easy_social_global_type') == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
-  $page .= '<tr><td>' . t('Global Widget Type') . '</td><td>' . $type . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Global Widget Type') . '</td><td style="width:33%;">' . $type . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
   $widgets = variable_get_value('easy_social_global_widgets');
   $widget_info = easy_social_get_widgets();
   $widget_list = array();
@@ -358,25 +364,33 @@ function easy_social_admin_summary() {
   }
 
   $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
-  $page .= '<tr><td>' . t('Global Widgets') . '</td><td>' . $widget_list . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Global Widgets') . '</td><td style="width:33%;">' . $widget_list . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
   $ignore = check_plain(variable_get_value('easy_social_ignore_paths'));
-  $page .= '<tr><td>' . t('Ignore Paths') . '</td><td>' . $ignore . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social/ignore-paths') . '</td></tr>';
-  $page .= '</table>';
+  $table .= '<tr><td style="width:33%;">' . t('Ignore Paths') . '</td><td style="width:33%;">' . $ignore . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social/ignore-paths') . '</td></tr>';
+  $table .= '</table>';
+  
+  $form['global_settings']['summary'] = array('#markup' => $table);
 
   // Content Type settings
-  $page .= '<h4>' . t('Content Type Settings') . '</h4>';
-  $page .= '<table>';
+  $form['content_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Content Type Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  
+  $table = '<table>';
   $node_types = node_type_get_types();
   foreach ($node_types as $type => $typeobj) {
     $enabled = variable_get_value("easy_social_{$type}_enable");
     $enabled_string = ($enabled == 1) ? '<strong>' . t('Enabled') . '</strong>' : t('Disabled');
-    $page .= '<tr><td>' . $typeobj->name . '</td><td>' . $enabled_string . '</td><td>' . l(t('configure'), 'admin/structure/types/manage/' . $type) . '</td></tr>';
+    $table .= '<tr><td style="width:33%;">' . $typeobj->name . '</td><td style="width:33%;">' . $enabled_string . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/structure/types/manage/' . $type) . '</td></tr>';
 
     if ($enabled == 1) {
       $count = variable_get_value("easy_social_{$type}_count");
-      $page .= '<tr><td> -- ' . t('Number of fields') . '</td><td>' . $count . '</td><td></td></tr>';
+      $table .= '<tr><td style="width:33%;"> -- ' . t('Number of fields') . '</td><td style="width:33%;">' . $count . '</td><td style="width:33%;"></td></tr>';
       $type = (_easy_social_variable_get_value("easy_social_{$type}_type") == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
-      $page .= '<tr><td> -- ' . t('Widget Type') . '</td><td>' . $type . '</td><td></td></tr>';
+      $table .= '<tr><td style="width:33%;"> -- ' . t('Widget Type') . '</td><td style="width:33%;">' . $type . '</td><td style="width:33%;"></td></tr>';
       $widgets = _easy_social_variable_get_value("easy_social_{$type}_widgets");
       $widget_list = array();
 
@@ -385,22 +399,30 @@ function easy_social_admin_summary() {
       }
 
       $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
-      $page .= '<tr><td> -- ' . t('Widgets') . '</td><td>' . $widget_list . '</td><td></td></tr>';
+      $table .= '<tr><td style="width:33%;"> -- ' . t('Widgets') . '</td><td style="width:33%;">' . $widget_list . '</td><td style="width:33%;"></td></tr>';
     }
   }
-  $page .= '</table>';
+  $table .= '</table>';
+  
+  $form['content_settings']['summary'] = array('#markup' => $table);
 
   // Block settings
-  $page .= '<h4>' . t('Block Settings') . '</h4>';
-  $page .= '<table>';
+  $form['block_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Block Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $table = '<table>';
   $count = variable_get_value('easy_social_block_count');
-  $page .= '<tr><td>' . t('Number of Blocks') . '</td><td>' . $count . '</td><td>' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
-  $page .= '</table>';
+  $table .= '<tr><td style="width:33%;">' . t('Number of Blocks') . '</td><td style="width:33%;">' . $count . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '</table>';
 
   if ($count > 0) {
     for ($i = 1; $i <= $count; ++$i) {
-      $page .= '<table>';
-      $page .= '<tr><td colspan="2"><strong>' . t('Block') . ' #' . $i . '</strong></td></tr>';
+      $table .= '<table>';
+      $table .= '<tr><td colspan="2"><strong>' . t('Block') . ' #' . $i . '</strong></td></tr>';
       $title = variable_get_value("easy_social_block_{$i}_title");
 
       if (empty($title)) {
@@ -410,8 +432,8 @@ function easy_social_admin_summary() {
       $override = variable_get_value("easy_social_block_{$i}_override");
       $override_string = ($override == 1) ? t('Yes') : t('No');
 
-      $page .= '<tr><td>' . t('Title') . '</td><td>' . $title . '</td></tr>';
-      $page .= '<tr><td>' . t('Override Settings') . '</td><td>' . $override_string . '</td></tr>';
+      $table .= '<tr><td style="width:33%;">' . t('Title') . '</td><td style="width:33%;">' . $title . '</td></tr>';
+      $table .= '<tr><td style="width:33%;">' . t('Override Settings') . '</td><td style="width:33%;">' . $override_string . '</td></tr>';
 
       if ($override == 1) {
         $type = (variable_get_value("easy_social_block_{$i}_type") == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
@@ -423,15 +445,17 @@ function easy_social_admin_summary() {
         }
 
         $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
-        $page .= '<tr><td>' . t('Widgets') . '</td><td>' . $widget_list . '</td></tr>';
+        $table .= '<tr><td style="width:33%;">' . t('Widgets') . '</td><td style="width:33%;">' . $widget_list . '</td></tr>';
       }
-      $page .= '</table>';
+      $table .= '</table>';
     }
   }
 
-  $page .= '</table>';
-
-  return $page;
+  $table .= '</table>';
+  
+  $form['block_settings']['summary'] = array('#markup' => $table);
+  
+  return $form;
 }
 
 /**
