@@ -170,12 +170,7 @@ function easy_social_variable_info() {
 
   $variables['easy_social_global_widgets'] = array(
     'title' => t('Easy Social Global Widgets'),
-    'default' => array(
-      'twitter' => 'Twitter',
-      'facebook' => 'Facebook',
-      'googleplus' => 'Google+',
-      'linkedin' => 'LinkedIn',
-    ),
+    'default' => array('twitter', 'facebook', 'googleplus', 'linkedin'),
     'group' => 'easy_social',
     'token' => FALSE,
   );
@@ -625,7 +620,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
     $ordered_widgets = array();
     
     foreach ($order as $key) {
-      if (array_key_exists($key, $enabled_widgets)) {
+      if (in_array($key, $enabled_widgets)) {
         $ordered_widgets[] = $key;
       }
     }
@@ -713,7 +708,7 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
     ),
     '#default_value' => _easy_social_variable_get_value("easy_social_{$type->type}_type")
   );
-
+  
   $form['easy_social']["easy_social_{$type->type}_widgets"] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Widgets'),
