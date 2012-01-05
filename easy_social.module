@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @file
- * Easy social module.
+ * Easy social module
  */
+
 /**
  * Easy Social Widget Type constants
  */
@@ -359,7 +359,7 @@ function easy_social_theme() {
 
 /**
  * Implements hook_field_extra_fields().
- * The Easy Social available in Manage display page in the content types
+ * Makes Easy Social available in Manage Display page for content types
  */
 function easy_social_field_extra_fields() {
   $extra = array();
@@ -392,7 +392,6 @@ function easy_social_field_extra_fields() {
 
 /**
  * Implements hook_node_view().
- * Certify to load the buttons in the moment I want
  */
 function easy_social_node_view($node, $view_mode, $langcode) {
   // we use this instead of $node->path to get an absolute URL
@@ -547,7 +546,7 @@ function easy_social_block_view($delta = '') {
 }
 
 /**
- * Returns whether easy_social is to ignored in the current page
+ * Returns whether easy_social is to be ignored in the current page
  * 
  * @return bool
  */
@@ -642,7 +641,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Adds easy social options to the node type form.
+ * Adds easy social options to node type forms.
  */
 function easy_social_form_node_type_form_alter(&$form, $form_state) {
   $type = $form['#node_type'];
@@ -713,7 +712,7 @@ function easy_social_node_type_form_submit(&$form, &$form_state) {
 }
 
 /**
- * Returns easy social options for use in settings forms
+ * Returns Easy Social options for use in settings forms
  * 
  * @return array
  */

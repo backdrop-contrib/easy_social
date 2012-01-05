@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @file Easy Social installation hooks
+ * @file
+ * Easy Social installation hooks
  */
 
 /**
@@ -9,7 +9,7 @@
  */
 function easy_social_uninstall() {
   // remove variables
-  $result = db_query("SELECT name FROM variable WHERE name LIKE 'easy_social%'");
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE 'easy_social%'");
 
   foreach ($result as $row) {
     variable_del($row->name);
@@ -21,7 +21,7 @@ function easy_social_uninstall() {
  */
 function easy_social_update_7200() {
   // find all current variables
-  $result = db_query("SELECT name, value FROM variable WHERE name LIKE 'easysocial%'");
+  $result = db_query("SELECT name, value FROM {variable} WHERE name LIKE 'easysocial%'");
   
   foreach ($result as $row) {
     // get old variable values
