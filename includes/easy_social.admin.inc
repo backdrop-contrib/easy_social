@@ -582,7 +582,7 @@ function easy_social_admin_wizard() {
     $form['types']["easy_social_{$type}"] = array(
       '#title' => $typeobj->name,
       '#type' => 'checkbox',
-      '#default_value' => variable_get("easy_social_{$type}_enable"),
+      '#default_value' => variable_get_value("easy_social_{$type}_enable"),
     );
   }
   
