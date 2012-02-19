@@ -617,13 +617,14 @@ function _easy_social_page_ignore() {
  * @param string $title
  * @param int $type
  * @param string $enabled_widgets
+ * @param string $node->language
  * @return array
  */
-function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL) {
+function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL, $lang = 'en') {
   drupal_add_css(drupal_get_path('module', 'easy_social') . '/css/easy_social.css');
 
   if (!_easy_social_page_ignore()) {
-    // Fallback to default settings.
+    // fallback to default settings
     if (!isset($type)) {
       $type = variable_get_value('easy_social_global_type');
     }
