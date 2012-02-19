@@ -678,7 +678,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
       // Finally, add widget markup.
       if (isset($widgets[$service]['markup'])) {
-        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title);
+        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title, $lang);
       }
     }
 
