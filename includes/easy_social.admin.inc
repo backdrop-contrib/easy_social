@@ -571,15 +571,16 @@ function easy_social_admin_wizard() {
   $form = array();
   $node_types = node_type_get_types();
   
-  $form['types'] = array(
+  $form['easy_social_types'] = array(
     '#type' => 'fieldset',
     '#title' => t('Content Types'),
     '#collapsible' => FALSE,
     '#description' => t('Enable Easy Social for the following content types:'),
+    '#tree' => TRUE,
   );
   
   foreach ($node_types as $type => $typeobj) {
-    $form['types']["easy_social_{$type}"] = array(
+    $form['easy_social_types']["easy_social_{$type}_enable"] = array(
       '#title' => $typeobj->name,
       '#type' => 'checkbox',
       '#default_value' => variable_get_value("easy_social_{$type}_enable"),
@@ -600,15 +601,7 @@ function easy_social_admin_wizard() {
  * @see easy_social_admin_wizard().
  */
 function easy_social_admin_wizard_submit($form, &$form_state) {
-  foreach ($form_state['values'] as $k => $v) {
-    if (strpos($k, 'easy_social_') !== FALSE) {
-      $varname = "{$k}_enable";
-
-      if ($v === 1) {
-        variable_set($varname, 1);
-      } else {
-        variable_set($varname, 0);
-      }
-    }
+  foreach ($form_state['values']['easy_social_types'] as $k => $v) {
+    variable_set($k, $v);
   }
 }
