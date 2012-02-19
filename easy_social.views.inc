@@ -11,7 +11,7 @@ function easy_social_views_data() {
   $data['node']['easy_social'] = array(
     'field' => array(
       'title' => t('Easy Social'),
-      'help' => t('Provide the Easy Social share buttons'),
+      'help' => t('Display Easy Social share widgets.'),
       'handler' => 'easy_social_handler_field',
     ),
   );

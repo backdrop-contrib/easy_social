@@ -6,5 +6,5 @@ configure = admin/config/content/easysocial
 tags[] = social
 tags[] = share
 dependencies[] = variable
-; Views handlers
+; Views handler
 files[] = views/easy_social_handler_field.inc
