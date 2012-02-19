@@ -601,7 +601,7 @@ function easy_social_admin_wizard() {
  * @see easy_social_admin_wizard().
  */
 function easy_social_admin_wizard_submit($form, &$form_state) {
-  foreach ($form_state['values']['easy_social_types'] as $k => $v) {
-    variable_set($k, $v);
+  foreach ($form_state['values']['easy_social_types'] as $name => $value) {
+    variable_set($name, $value);
   }
 }
