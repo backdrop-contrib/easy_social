@@ -424,11 +424,6 @@ function easy_social_node_view($node, $view_mode, $langcode) {
   if (variable_get_value("easy_social_{$node->type}_enable")) {
     $type = variable_get_value("easy_social_{$node->type}_type");
     $enabled_widgets = variable_get_value("easy_social_{$node->type}_widgets");
-
-    if ($enabled_widgets === FALSE) {
-      $enabled_widgets = NULL;
-    }
-
     $widgets = _easy_social_render_widgets($url, $node->title, $type, $enabled_widgets, $node->language);
     $count = variable_get_value("easy_social_{$node->type}_count");
 
@@ -563,10 +558,6 @@ function easy_social_block_view($delta = '') {
       if (variable_get_value("easy_social_block_{$i}_override")) {
         $type = variable_get_value("easy_social_block_{$i}_type");
         $enabled_widgets = variable_get_value("easy_social_block_{$i}_widgets");
-
-        if ($enabled_widgets === FALSE) {
-          $enabled_widgets = NULL;
-        }
       }
       else {
         $type = $enabled_widgets = NULL;
@@ -628,7 +619,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
       $type = variable_get_value('easy_social_global_type');
     }
 
-    if (!isset($enabled_widgets)) {
+    if (!$enabled_widgets) {
       $enabled_widgets = variable_get_value('easy_social_global_widgets');
     }
 
