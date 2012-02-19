@@ -55,7 +55,7 @@ function easy_social_admin_config_main() {
   $form['block_settings']['easy_social_block_count'] = array(
     '#type' => 'select',
     '#title' => t('Number of Easy Social blocks'),
-    '#description' => t('You can create up to !num Easy Social blocks', array('!num' => EASY_SOCIAL_BLOCK_MAX)),
+    '#description' => t('You can create up to !num Easy Social blocks. Please save and refresh the page to see the settings for each additional block.', array('!num' => EASY_SOCIAL_BLOCK_MAX)),
     '#options' => range(0, EASY_SOCIAL_BLOCK_MAX),
     '#default_value' => $num_blocks,
   );
