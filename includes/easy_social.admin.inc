@@ -363,7 +363,7 @@ function easy_social_admin_summary() {
   
   $table = '<table>';
   $type = (variable_get_value('easy_social_global_type') == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
-  $table .= '<tr><td style="width:33%;">' . t('Global Widget Type') . '</td><td style="width:33%;">' . $type . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Global Widget Type') . '</td><td style="width:33%;">' . $type . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
   $widgets = variable_get_value('easy_social_global_widgets');
   $widget_info = easy_social_get_widgets();
   $widget_list = array();
@@ -373,9 +373,9 @@ function easy_social_admin_summary() {
   }
 
   $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
-  $table .= '<tr><td style="width:33%;">' . t('Global Widgets') . '</td><td style="width:33%;">' . $widget_list . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Global Widgets') . '</td><td style="width:33%;">' . $widget_list . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
   $ignore = check_plain(variable_get_value('easy_social_ignore_paths'));
-  $table .= '<tr><td style="width:33%;">' . t('Ignore Paths') . '</td><td style="width:33%;">' . $ignore . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social/ignore-paths') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Ignore Paths') . '</td><td style="width:33%;">' . $ignore . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social/ignore-paths', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
   $table .= '</table>';
   
   $form['global_settings']['summary'] = array('#markup' => $table);
@@ -393,7 +393,7 @@ function easy_social_admin_summary() {
   foreach ($node_types as $type => $typeobj) {
     $enabled = variable_get_value("easy_social_{$type}_enable");
     $enabled_string = ($enabled == 1) ? '<strong>' . t('Enabled') . '</strong>' : t('Disabled');
-    $table .= '<tr><td style="width:33%;">' . $typeobj->name . '</td><td style="width:33%;">' . $enabled_string . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/structure/types/manage/' . $type) . '</td></tr>';
+    $table .= '<tr><td style="width:33%;">' . $typeobj->name . '</td><td style="width:33%;">' . $enabled_string . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/structure/types/manage/' . $type, array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
 
     if ($enabled == 1) {
       $count = variable_get_value("easy_social_{$type}_count");
@@ -425,7 +425,7 @@ function easy_social_admin_summary() {
 
   $table = '<table>';
   $count = variable_get_value('easy_social_block_count');
-  $table .= '<tr><td style="width:33%;">' . t('Number of Blocks') . '</td><td style="width:33%;">' . $count . '</td><td style="width:33%;text-align:center;">' . l(t('configure'), 'admin/config/content/easy_social') . '</td></tr>';
+  $table .= '<tr><td style="width:33%;">' . t('Number of Blocks') . '</td><td style="width:33%;">' . $count . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
   $table .= '</table>';
 
   if ($count > 0) {
