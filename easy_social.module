@@ -731,18 +731,26 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
  * @see easy_social_form_node_type_form_alter().
  */
 function easy_social_node_type_form_submit(&$form, &$form_state) {
-  foreach ($form_state['values']['easy_social'] as $name => $value) {
-    variable_set($name, $value);
+  if (strpos($form_state['values']['op'], 'Delete') === 0 || $form_state['triggering_element']['#parents'][0] === 'delete') {
+    // Deleting content type, therefore delete all Easy Social variables related to it.
+    foreach ($form_state['values']['easy_social'] as $name => $value) {
+      variable_del($name);
+    }    
   }
-  
-  // Delete bogus variable that is automatically created.
-  // Ideally we wouldn't allow it to get created but can't seem to work around this.
-  variable_del("easy_social_{$form_state['values']['type']}");
+  else {
+    foreach ($form_state['values']['easy_social'] as $name => $value) {
+      variable_set($name, $value);
+    }
 
-  // Flush all caches; no need to re-implement this.
-  module_load_include('inc', 'system', 'system.admin');
-  $form = $form_state = array();
-  system_clear_cache_submit($form, $form_state);
+    // Delete bogus variable that is automatically created.
+    // Ideally we wouldn't allow it to get created but can't seem to work around this.
+    variable_del("easy_social_{$form_state['values']['type']}");
+
+    // Flush all caches; no need to re-implement this.
+    module_load_include('inc', 'system', 'system.admin');
+    $form = $form_state = array();
+    system_clear_cache_submit($form, $form_state);
+  }
 }
 
 /**
