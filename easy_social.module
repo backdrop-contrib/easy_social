@@ -200,6 +200,13 @@ function easy_social_variable_info() {
       'token' => FALSE,
     );
 
+    $variables["easy_social_comment_{$type}_enable"] = array(
+      'title' => t('Enable Easy Social on comments for nodes of type %type', array('%type' => $typeobj->name)),
+      'default' => FALSE,
+      'group' => 'easy_social',
+      'token' => FALSE,
+    );
+
     $variables["easy_social_{$type}_count"] = array(
       'title' => t('Number of Easy Social fields for nodes of type %type', array('%type' => $typeobj->name)),
       'default' => 1,
@@ -464,7 +471,7 @@ function easy_social_get_widgets() {
         $widgets = module_invoke($name, 'easy_social_widget');
         $return = array_merge($return, $widgets);
       }
-      
+
       // Add widgets to easy_social_global_order variable
       $order = variable_get_value('easy_social_global_order');
       foreach ($return as $name => $array) {
@@ -472,7 +479,7 @@ function easy_social_get_widgets() {
           $order[] = $name;
         }
       }
-      
+
       variable_set('easy_social_global_order', $order);
 
       cache_set('easy_social_widgets', $return, 'bin', CACHE_TEMPORARY);
@@ -628,7 +635,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
     // Load enabled widgets.
     $widgets = easy_social_get_widgets();
-    
+
     // Order widgets.
     $order = variable_get_value('easy_social_global_order');
     $ordered_widgets = array();
@@ -694,6 +701,10 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
     '#title' => t('Easy Social settings'),
     '#group' => 'additional_settings',
     '#tree' => TRUE,
+    '#attached' => array(
+      'js' => array(drupal_get_path('module', 'easy_social') . '/js/easy_social_settings_form.js'),
+    ),
+    '#attributes' => array('class' => array('easysocial-settings-form')),
   );
 
   $form['easy_social']["easy_social_{$type}_enable"] = array(
@@ -701,7 +712,19 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
     '#title' => t('Enable Easy Social'),
     '#description' => t('Check this option to enable easy social for this content type'),
     '#default_value' => variable_get_value("easy_social_{$type}_enable"),
+    '#attributes' => array('class' => array('easy-social-current-type')),
   );
+
+  if(module_exists('comment')) {
+    if(variable_get_value("easy_social_{$type}_enable")) {
+      $form['easy_social']["easy_social_comment_{$type}_enable"] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable Easy Social on comments'),
+        '#description' => t('Check this option to enable easy social for this content type\'s comments'),
+        '#default_value' => variable_get_value("easy_social_comment_{$type}_enable"),
+      );
+    }
+  }
 
   $form['easy_social']["easy_social_{$type}_count"] = array(
     '#type' => 'select',
@@ -718,7 +741,8 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
       EASY_SOCIAL_WIDGET_HORIZONTAL => t('Horizontal'),
       EASY_SOCIAL_WIDGET_VERTICAL => t('Vertical')
     ),
-    '#default_value' => _easy_social_variable_get_value("easy_social_{$type}_type")
+    '#default_value' => _easy_social_variable_get_value("easy_social_{$type}_type"),
+    '#attributes' => array('class' => array('easy-social-type-buttons')),
   );
 
   $form['easy_social']["easy_social_{$type}_widgets"] = array(
