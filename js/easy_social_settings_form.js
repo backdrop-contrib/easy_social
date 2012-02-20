@@ -8,7 +8,6 @@
           var vals = [];
 
           // Default easy social setting.
-          vals.push('Enabled');
 
           // On Comments.
           var comments = $(".form-item-easy-social-easy-social-comment-article-enable input:checked", context);
