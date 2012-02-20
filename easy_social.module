@@ -177,7 +177,7 @@ function easy_social_variable_info() {
 
   $variables['easy_social_global_widgets'] = array(
     'title' => t('Easy Social Global Widgets'),
-    'default' => array('twitter', 'facebook', 'googleplus', 'linkedin'),
+    'default' => array('twitter' => 'twitter', 'facebook' => 'facebook', 'googleplus' => 'googleplus', 'linkedin' => 'linkedin'),
     'group' => 'easy_social',
     'token' => FALSE,
   );
