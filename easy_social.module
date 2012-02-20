@@ -372,7 +372,7 @@ function easy_social_theme() {
   return array(
     'easy_social_links' => array(
       'template' => 'templates/easy_social-links',
-      'variables' => array('widgets' => array(), 'widget_type' => NULL),
+      'variables' => array('widgets' => array(), 'widget_type' => NULL, 'lang' => NULL),
     ),
     'easy_social_admin_order' => array(
       'render element' => 'form',
@@ -433,6 +433,7 @@ function easy_social_node_view($node, $view_mode, $langcode) {
         '#theme' => 'easy_social_links',
         '#widgets' => $widgets,
         '#widget_type' => $type,
+        '#lang' => $node->language,
         '#weight' => 100 + $i,
       );
     }
@@ -572,6 +573,7 @@ function easy_social_block_view($delta = '') {
           '#theme' => 'easy_social_links',
           '#widgets' => $widgets,
           '#widget_type' => $type,
+          '#lang' => $language->language,
         ),
       );
     }
@@ -608,13 +610,14 @@ function _easy_social_page_ignore() {
  * @param string $title
  * @param int $type
  * @param string $enabled_widgets
+ * @param string $node->language
  * @return array
  */
-function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL) {
+function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL, $lang = 'en') {
   drupal_add_css(drupal_get_path('module', 'easy_social') . '/css/easy_social.css');
 
   if (!_easy_social_page_ignore()) {
-    // Fallback to default settings.
+    // fallback to default settings
     if (!isset($type)) {
       $type = variable_get_value('easy_social_global_type');
     }
@@ -668,7 +671,7 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
       // Finally, add widget markup.
       if (isset($widgets[$service]['markup'])) {
-        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title);
+        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title, $lang);
       }
     }
 
