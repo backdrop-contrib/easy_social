@@ -449,6 +449,7 @@ function easy_social_comment_view($comment, $view_mode, $langcode) {
     if(variable_get_value("easy_social_comment_{$node_type}_enable")) {
       //generating the comment permalink
       $uri = entity_uri('comment', $comment);
+      $uri['options'] += array('absolute' => TRUE);
       $permalink = url($uri['path'], $uri['options']);
 
       //load node object
