@@ -389,14 +389,16 @@ function easy_social_theme() {
 
 /**
  * Implements hook_field_extra_fields().
- * Makes Easy Social available in Manage Display page for content types
+ * Makes Easy Social available in Manage Display page for content types and comments
  */
 function easy_social_field_extra_fields() {
   $extra = array();
   $node_types = node_type_get_types();
 
+  // Fields for node types
   foreach ($node_types as $type => $typeobj) {
     if (variable_get_value("easy_social_{$type}_enable")) {
+      //Fields for nodes
       for ($i = 1, $num = variable_get_value("easy_social_{$type}_count"); $i <= $num; ++$i) {
         if (isset($extra['node'][$type]['display'])) {
           $extra['node'][$type]['display']["easy_social_{$i}"] = array(
@@ -415,9 +417,58 @@ function easy_social_field_extra_fields() {
           );
         }
       }
+
+      //Field display for comments
+      if(module_exists('comment') && variable_get_value("easy_social_{$type}_enable")) {
+        if(variable_get_value("easy_social_comment_{$type}_enable")) {
+          $extra['comment']['comment_node_' . $type] = array(
+            'display' => array(
+              'easy_social' => array(
+                'label' => t('Easy Social'),
+                'weight' => 100,
+              ),
+            ),
+          );
+        }
+      }
     }
   }
   return $extra;
+}
+
+/**
+ * Implements hook_comment_view().
+ */
+function easy_social_comment_view($comment, $view_mode, $langcode) {
+  //current node type for this comment
+  $node_type = str_replace('comment_node_', '', $comment->node_type);
+
+  //check if the easy social is available for this comment
+  if(module_exists('comment') && variable_get_value("easy_social_{$node_type}_enable")) {
+
+    if(variable_get_value("easy_social_comment_{$node_type}_enable")) {
+      //generating the comment permalink
+      $uri = entity_uri('comment', $comment);
+      $permalink = url($uri['path'], $uri['options']);
+
+      //load node object
+      $node = node_load($comment->nid);
+
+      //loading easy social stuff
+      $type = variable_get_value("easy_social_{$node_type}_type");
+      $enabled_widgets = variable_get_value("easy_social_{$node_type}_widgets");
+      $widgets = _easy_social_render_widgets($permalink, $comment->subject, $type, $enabled_widgets, $node->language);
+
+      //easy social widgets
+      $comment->content["easy_social"] = array(
+        '#theme' => 'easy_social_links',
+        '#widgets' => $widgets,
+        '#widget_type' => $type,
+        '#lang' => $node->language,
+        '#weight' => 100,
+      );
+    }
+  }
 }
 
 /**
@@ -715,15 +766,13 @@ function easy_social_form_node_type_form_alter(&$form, $form_state) {
     '#attributes' => array('class' => array('easy-social-current-type')),
   );
 
-  if(module_exists('comment')) {
-    if(variable_get_value("easy_social_{$type}_enable")) {
-      $form['easy_social']["easy_social_comment_{$type}_enable"] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Enable Easy Social on comments'),
-        '#description' => t('Check this option to enable easy social for this content type\'s comments'),
-        '#default_value' => variable_get_value("easy_social_comment_{$type}_enable"),
-      );
-    }
+  if(module_exists('comment') && variable_get_value("easy_social_{$type}_enable")) {
+    $form['easy_social']["easy_social_comment_{$type}_enable"] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable Easy Social on comments'),
+      '#description' => t('Check this option to enable easy social for this content type\'s comments'),
+      '#default_value' => variable_get_value("easy_social_comment_{$type}_enable"),
+    );
   }
 
   $form['easy_social']["easy_social_{$type}_count"] = array(
