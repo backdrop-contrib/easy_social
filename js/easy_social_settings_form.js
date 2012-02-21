@@ -10,20 +10,20 @@
           // Default easy social setting.
 
           // On Comments.
-          var comments = $(".form-item-easy-social-easy-social-comment-article-enable input:checked", context);
+          var comments = $("input.easy-social-comment-type:checked", context);
           if (comments.length) {
             vals.push('On comments');
           }
 
           // Widgets per page.
-          var number = $(".form-item-easy-social-easy-social-article-count select option:selected", context).val();
+          var number = $("select.easy-social-number-fields-type option:selected", context).val();
           vals.push(Drupal.t('@number Widget fields per page', {'@number': number}));
 
           // Type of buttons
           vals.push($('div.easy-social-type-buttons input:checked', context).next('label').text());
 
           // Selected widgets
-          $('#edit-easy-social-easy-social-article-widgets input:checked', context).each(function(){
+          $('input.easy-social-each-widget:checked', context).each(function(){
             vals.push($(this).next('label').text());
           });
 
