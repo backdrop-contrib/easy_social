@@ -84,7 +84,7 @@ FB;
  * @param $title The title to be shared
  * @return string the html markup
  */
-function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'en') {
+function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'und') {
   // this widget doesn't yet offer a localization option
   // correct for different language identification strings
 //  if ($lang === 'en') {
@@ -117,7 +117,7 @@ GP;
  * @param $title The title to be shared
  * @return string the html markup
  */
-function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'en') {
+function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'und') {
   // this widget doesn't yet offer a localization option
   // correct for different language identification strings
 //  if ($lang === 'en') {
@@ -142,7 +142,7 @@ LI;
  * @param $lang The language of the twitter button
  * @return string the html markup
  */
-function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'en') {
+function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'und') {
 
   // correct for different language identification strings
   $lang = _easy_social_twitter_langcodes($lang);
@@ -170,9 +170,11 @@ TT;
  * @param $lang The drupal langcode
  * @return string the respective supported langcode by twitter ISO 369
  */
-function _easy_social_twitter_langcodes($lang = 'en'){
-
+function _easy_social_twitter_langcodes($lang = 'und'){
   $languages = array();
+
+  // Undefined
+  $languages['und'] = 'en';
 
   //Hungarian
   $languages['hu'] = 'hu';
@@ -261,9 +263,11 @@ function _easy_social_twitter_langcodes($lang = 'en'){
  * @param $lang The drupal langcode
  * @return string the respective supported langcode by facebook II_CC
  */
-function _easy_social_facebook_langcodes($lang = 'en'){
-
+function _easy_social_facebook_langcodes($lang = 'und') {
   $languages = array();
+
+  // Undefined
+  $languages['und'] = 'en_US';
 
   //Afrikaans
   $languages['af'] = 'af_ZA';
@@ -487,6 +491,6 @@ function _easy_social_facebook_langcodes($lang = 'en'){
   //Traditional Chinese (Taiwan)
   $languages['zh-hant'] = 'zh_TW';
 
-  return (isset($languages[$lang]))?$languages[$lang]:'en';
+  return (isset($languages[$lang])) ? $languages[$lang] : 'en_US';
 
 }
