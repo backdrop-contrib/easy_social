@@ -556,7 +556,7 @@ function easy_social_easy_social_widget() {
       'markup' => '_easy_social_widget_googleplus_markup',
       'scripts' => array(
         array(
-          'path' => 'https://apis.google.com/js/plusone.js',
+          'path' => '//apis.google.com/js/plusone.js',
           'type' => 'external',
         ),
       ),
@@ -566,7 +566,7 @@ function easy_social_easy_social_widget() {
       'markup' => '_easy_social_widget_linkedin_markup',
       'scripts' => array(
         array(
-          'path' => 'http://platform.linkedin.com/in.js',
+          'path' => '//platform.linkedin.com/in.js',
           'type' => 'external',
         ),
       ),
@@ -576,7 +576,7 @@ function easy_social_easy_social_widget() {
       'markup' => '_easy_social_widget_twitter_markup',
       'scripts' => array(
         array(
-          'path' => 'http://platform.twitter.com/widgets.js',
+          'path' => '//platform.twitter.com/widgets.js',
           'type' => 'external',
         ),
       ),
