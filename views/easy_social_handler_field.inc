@@ -8,18 +8,33 @@
 * Handler for showing Easy Social share buttons in views
  */
 class easy_social_handler_field extends views_handler_field {
+  function init(&$view, $options) {
+      parent::init($view, $options);
+      // Declare additional fields to be loaded with a single query.
+      // Then, there's no reason to node_load() on render()
+      $this->additional_fields['nid'] = 'nid';
+      $this->additional_fields['type'] = 'type';
+      $this->additional_fields['language'] = 'language';
+      $this->additional_fields['title'] = 'title';
+  }
 
   function query() {
-    // Do nothing, as this handler does not need to do anything to the query itself.
+    $this->ensure_my_table();
+    $this->add_additional_fields();
   }
   
   /**
    * Render field. 
    */
   function render($values) {
-    // Get absolute URL.
-    $url = url('node/' . $values->nid, array('absolute' => TRUE));
-    $node = node_load($values->nid);
+    // All $additional_fields are aliased by Views
+    // Dealias & create a partial Node object
+    $node = new stdClass;
+    $node->nid = $values->{$this->aliases['nid']};
+    $node->type = $values->{$this->aliases['type']};
+    $node->language = $values->{$this->aliases['language']};
+    $node->title = $values->{$this->aliases['title']};
+    $url = url('node/'.$node->nid, array('absolute' => TRUE)); // absolute url
     
     // Check if easy social is enabled for this content type.
     if (variable_get_value("easy_social_{$node->type}_enable")) {
