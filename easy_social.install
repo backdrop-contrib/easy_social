@@ -15,8 +15,11 @@ function easy_social_enable() {
  * Implements hook_uninstall().
  */
 function easy_social_uninstall() {
-  // remove variables
-  $result = db_query("SELECT name FROM {variable} WHERE name LIKE 'easy_social%'");
+  $result = db_select('variable', 'v')
+    ->fields('v', array('name'))
+    ->condition('name', 'easy_social_%', '=')
+    ->execute();
+
 
   foreach ($result as $row) {
     variable_del($row->name);
