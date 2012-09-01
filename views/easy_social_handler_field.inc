@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * Views handler for Easy Social.
+ * Easy Social view handler.
  */
 
 /**
-* Handler for showing Easy Social share buttons in views
+ * Handler for displaying Easy Social share buttons in views.
  */
 class easy_social_handler_field extends views_handler_field {
   function init(&$view, $options) {
       parent::init($view, $options);
       // Declare additional fields to be loaded with a single query.
-      // Then, there's no reason to node_load() on render()
+      // This way there's no need to node_load() on render().
       $this->additional_fields['nid'] = 'nid';
       $this->additional_fields['type'] = 'type';
       $this->additional_fields['language'] = 'language';
@@ -22,21 +22,21 @@ class easy_social_handler_field extends views_handler_field {
     $this->ensure_my_table();
     $this->add_additional_fields();
   }
-  
+
   /**
-   * Render field. 
+   * Render field.
    */
   function render($values) {
-    // All $additional_fields are aliased by Views
-    // Dealias & create a partial Node object
+    // All $additional_fields are aliased by Views.
+    // Dealias & create a partial Node object.
     $node = new stdClass;
     $node->nid = $values->{$this->aliases['nid']};
     $node->type = $values->{$this->aliases['type']};
     $node->language = $values->{$this->aliases['language']};
     $node->title = $values->{$this->aliases['title']};
     $url = url('node/'.$node->nid, array('absolute' => TRUE)); // absolute url
-    
-    // Check if easy social is enabled for this content type.
+
+    // Check if Easy Social is enabled for this content type.
     if (variable_get_value("easy_social_{$node->type}_enable")) {
       $type = $this->options['easy_social_type'];
       $enabled_widgets = $this->options['easy_social_widgets'];
@@ -44,7 +44,7 @@ class easy_social_handler_field extends views_handler_field {
       return theme('easy_social_links', array('widgets' => $widgets));
     }
   }
-  
+
   /**
    * Define extra Easy Social field options.
    */
@@ -54,7 +54,7 @@ class easy_social_handler_field extends views_handler_field {
     $options['easy_social_widgets'] = array('default' => variable_get_value('easy_social_global_widgets'));
     return $options;
   }
-  
+
   /**
    * Extra Easy Social field options form.
    */
@@ -67,9 +67,8 @@ class easy_social_handler_field extends views_handler_field {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
       '#weight' => -1,
-//      '#tree' => TRUE,
     );
-    
+
     $form['easy_social']['easy_social_type'] = array(
       '#type' => 'radios',
       '#title' => t('Type of buttons'),
@@ -79,7 +78,7 @@ class easy_social_handler_field extends views_handler_field {
       ),
       '#default_value' => $this->options['easy_social_type'],
     );
-    
+
     $form['easy_social']['easy_social_widgets'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Enabled Widgets'),
@@ -88,7 +87,7 @@ class easy_social_handler_field extends views_handler_field {
       '#description' => t('Some widgets may appear unformatted in the Views preview'),
     );
   }
-  
+
   /**
    * Extra Easy Social options submit callback.
    */

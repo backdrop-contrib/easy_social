@@ -1,18 +1,19 @@
 <?php
 /**
  * @file
- * Easy Social administration forms
+ * Easy Social admin settings.
  */
 
 /**
- * Form callback
- * Main settings form
+ * Form callback.
+ * Main settings form.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_main() {
   $form = array();
 
-  // Global Settings
-  
+  // Global Settings.
   $form['global_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Global Settings'),
@@ -32,7 +33,7 @@ function easy_social_admin_config_main() {
   );
 
   $options = _easy_social_get_options();
-  
+
   $form['global_settings']['easy_social_global_widgets'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Social Widgets'),
@@ -40,8 +41,7 @@ function easy_social_admin_config_main() {
     '#default_value' => variable_get_value('easy_social_global_widgets'),
   );
 
-  // Block settings
-
+  // Block settings.
   $form['block_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Block Settings'),
@@ -91,7 +91,7 @@ function easy_social_admin_config_main() {
         ),
       ),
     );
-      
+
     $form['block_settings']["easy_social_block_{$i}"]['override']["easy_social_block_{$i}_type"] = array(
       '#type' => 'radios',
       '#title' => t('Widget Type'),
@@ -109,13 +109,15 @@ function easy_social_admin_config_main() {
       '#default_value' => _easy_social_variable_get_value("easy_social_block_{$i}_widgets"),
     );
   }
-  
+
   return system_settings_form($form);
 }
 
 /**
- * Form callback
- * Ignore-paths settings form
+ * Form callback.
+ * Ignore-paths settings form.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_ignore_paths() {
   $form = array();
@@ -131,8 +133,10 @@ function easy_social_admin_config_ignore_paths() {
 }
 
 /**
- * Form callback
- * Home tab for extra settings pages
+ * Form callback.
+ * Home tab for extra settings pages.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_extra() {
   $form = array();
@@ -145,8 +149,10 @@ function easy_social_admin_config_extra() {
 }
 
 /**
- * Form callback
- * Extra settings for Twitter Widget
+ * Form callback.
+ * Extra settings for Twitter Widget.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_extra_twitter() {
   $form = array();
@@ -195,8 +201,10 @@ function easy_social_admin_config_extra_twitter() {
 }
 
 /**
- * Form callback
- * Extra settings for Facebook Widget
+ * Form callback.
+ * Extra settings for Facebook Widget.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_extra_facebook() {
   $form = array();
@@ -304,8 +312,9 @@ function easy_social_admin_config_extra_facebook() {
 }
 
 /**
- * Validation callback
- * 
+ * Validation callback.
+ * Validates extra Facebook settings.
+ *
  * @see easy_social_admin_config_extra_facebook().
  */
 function easy_social_admin_config_extra_facebook_validate(&$form, &$form_state) {
@@ -318,8 +327,10 @@ function easy_social_admin_config_extra_facebook_validate(&$form, &$form_state) 
 }
 
 /**
- * Form callback
- * Extra settings for Google+ Widget
+ * Form callback.
+ * Extra settings for Google+ Widget.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_extra_googleplus() {
   $form = array();
@@ -359,8 +370,10 @@ function easy_social_admin_config_extra_googleplus() {
 }
 
 /**
- * Form callback
- * Extra settings for LinkedIn Widget
+ * Form callback.
+ * Extra settings for LinkedIn Widget.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_config_extra_linkedin() {
   $form = array();
@@ -379,22 +392,22 @@ function easy_social_admin_config_extra_linkedin() {
 }
 
 /**
- * Form callback
- * Displays Easy Social Summary
- * 
- * @see easy_social_menu().
+ * Form callback.
+ * Displays Easy Social Summary.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_summary() {
   $form = array();
-  
-  // Global settings
+
+  // Global settings.
   $form['global_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Global Settings'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
+
   $table = '<table>';
   $type = (variable_get_value('easy_social_global_type') == EASY_SOCIAL_WIDGET_HORIZONTAL) ? t('Horizontal') : t('Vertical');
   $table .= '<tr><td style="width:33%;">' . t('Global Widget Type') . '</td><td style="width:33%;">' . $type . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
@@ -411,17 +424,17 @@ function easy_social_admin_summary() {
   $ignore = check_plain(variable_get_value('easy_social_ignore_paths'));
   $table .= '<tr><td style="width:33%;">' . t('Ignore Paths') . '</td><td style="width:33%;">' . $ignore . '</td><td style="width:33%;text-align:left;">' . l(t('Configure'), 'admin/config/content/easy_social/ignore-paths', array('attributes' => array('class' => 'module-link module-link-configure'))) . '</td></tr>';
   $table .= '</table>';
-  
+
   $form['global_settings']['summary'] = array('#markup' => $table);
 
-  // Content Type settings
+  // Content Type settings.
   $form['content_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Content Type Settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  
+
   $table = '<table>';
   $node_types = node_type_get_types();
   foreach ($node_types as $type => $typeobj) {
@@ -446,10 +459,10 @@ function easy_social_admin_summary() {
     }
   }
   $table .= '</table>';
-  
+
   $form['content_settings']['summary'] = array('#markup' => $table);
 
-  // Block settings
+  // Block settings.
   $form['block_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Block Settings'),
@@ -495,23 +508,25 @@ function easy_social_admin_summary() {
   }
 
   $table .= '</table>';
-  
+
   $form['block_settings']['summary'] = array('#markup' => $table);
-  
+
   return $form;
 }
 
 /**
- * Form callback
- * Builds form for implementing draggable tables
+ * Form callback.
+ * Displays Easy Social widget sorting form.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_order() {
   $widgets = variable_get_value('easy_social_global_order');
   $options = _easy_social_get_options();
-  
+
   $data = array();
   $i = 0;
-  
+
   foreach ($widgets as $widget) {
     $data[] = array(
       'id' => $widget,
@@ -519,7 +534,7 @@ function easy_social_admin_order() {
       'weight' => $i++,
     );
   }
-  
+
   $form['widgets'] = array('#tree' => TRUE);
   $count = count($data);
 
@@ -543,48 +558,50 @@ function easy_social_admin_order() {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
-  
+
   return $form;
 }
 
 /**
- * Submit callback
- * 
- * @see easy_social_admin_order().
+ * Submit callback.
+ * Sorts Easy Social widgets.
+ *
+ * @see easy_social_admin_order()
  */
 function easy_social_admin_order_submit($form, &$form_state) {
   $order = array();
-  
+
   foreach ($form_state['values']['widgets'] as $name => $value) {
     $order[$value['weight']] = $name;
   }
-  
+
   ksort($order);
   $order = array_values($order);
   variable_set('easy_social_global_order', $order);
 }
 
 /**
- * Theme callback
- * For draggable tables in Easy Social settings
- * 
- * @see easy_social_theme().
+ * Theme callback.
+ * Implements draggable table in Easy Social sort form.
+ *
+ * @see easy_social_admin_order()
+ * @see easy_social_theme()
  */
 function theme_easy_social_admin_order($variables) {
   $output = '';
   $form = $variables['form'];
   $header = array('Title', 'Weight');
   $table_id = 'easy_social_widget_order';
-  
+
   foreach (element_children($form['widgets']) as $id) {
     $data = array();
     $data[] = $form['widgets'][$id]['#widget'];
     $data[] = drupal_render($form['widgets'][$id]['weight']);
     $rows[] = array('data' => $data, 'class' => array('draggable'));
   }
-  
+
   drupal_add_tabledrag($table_id, 'order', 'sibling', 'weight_group');
-  
+
   $output .= theme('table', array(
     'header' => $header,
     'rows' => $rows,
@@ -596,15 +613,15 @@ function theme_easy_social_admin_order($variables) {
 }
 
 /**
- * Form callback
- * Wizard for quickly adding Easy Social to Content Types
- * 
- * @see easy_social_menu().
+ * Form callback.
+ * Wizard for quickly adding Easy Social to Content Types.
+ *
+ * @see easy_social_menu()
  */
 function easy_social_admin_wizard() {
   $form = array();
   $node_types = node_type_get_types();
-  
+
   $form['easy_social_types'] = array(
     '#type' => 'fieldset',
     '#title' => t('Content Types'),
@@ -612,7 +629,7 @@ function easy_social_admin_wizard() {
     '#description' => t('Enable Easy Social for the following content types:'),
     '#tree' => TRUE,
   );
-  
+
   foreach ($node_types as $type => $typeobj) {
     $form['easy_social_types']["easy_social_{$type}_enable"] = array(
       '#title' => $typeobj->name,
@@ -620,19 +637,20 @@ function easy_social_admin_wizard() {
       '#default_value' => variable_get_value("easy_social_{$type}_enable"),
     );
   }
-  
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
-  
+
   return $form;
 }
 
 /**
- * Submit callback
- * 
- * @see easy_social_admin_wizard().
+ * Submit callback.
+ * Handles wizard settings.
+ *
+ * @see easy_social_admin_wizard()
  */
 function easy_social_admin_wizard_submit($form, &$form_state) {
   foreach ($form_state['values']['easy_social_types'] as $name => $value) {

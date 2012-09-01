@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Provide views handlers that allow usage of Easy Social with Views.
+ * Easy Social Views hooks.
  */
 
 /**

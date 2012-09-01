@@ -1,11 +1,12 @@
 <?php
-
 /**
- * @file Easy Social default widget markup functions
+ * @file
+ * Easy Social default widget functions.
  */
 
 /**
- * Generate the needed markup for the facebook share link
+ * Generate the needed markup for the facebook share link.
+ *
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
  * @param $title The title to be shared
@@ -13,11 +14,12 @@
  * @return string the html markup
  */
 function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en') {
-  // correct for different language identification strings
+  // Correct for different language identification strings.
   $lang = _easy_social_facebook_langcodes($lang);
 
-  // @TODO subscribe to the 'edge.create' event through FB.Event.subscribe to track successful shares
-  // this will likely be in either a seperate module or a new version
+  // @TODO Subscribe to the 'edge.create' event through FB.Event.subscribe to
+  // track successful shares. This will likely be in either a seperate module
+  // or a new version.
 
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
     $width = variable_get_value('easy_social_facebook_width_horizontal');
@@ -32,7 +34,8 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
 
   $appid = variable_get_value('easy_social_facebook_appid');
   $facebook_type = variable_get_value('easy_social_facebook_widget_type');
-  $send_button = variable_get_value('easy_social_facebook_send_button') ? 'true' : 'false';
+  $send_button = variable_get_value('easy_social_facebook_send_button') ? 'true'
+      : 'false';
   $show_faces = variable_get_value('easy_social_facebook_show_faces') ? 'true' : 'false';
   $action = variable_get_value('easy_social_facebook_verb');
   $color_scheme = variable_get_value('easy_social_facebook_color_scheme');
@@ -43,7 +46,8 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   }
 
   if ($facebook_type !== 'iframe') {
-    // this is done here instead of using the proper hook method because the script is only added in the HTMl5 and XFBML versions, not iframe
+    // This is done here instead of using the proper hook method because the
+    // script is only added in the HTMl5 and XFBML versions, not iframe.
     $script = <<<JS
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -78,20 +82,17 @@ FB;
 }
 
 /**
- * Generate the needed markeup for the googleplus share link
+ * Generate the needed markeup for the Google+ share link.
+ *
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
  * @param $title The title to be shared
  * @return string the html markup
  */
 function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'und') {
-  // this widget doesn't yet offer a localization option
-  // correct for different language identification strings
-//  if ($lang === 'en') {
-//    $lang = 'en_US';
-//  }
-  // @TODO use "callback" to track successful shares
-  // this will likely be in either a seperate module or a new version
+  // This widget doesn't yet offer a localization option.
+  // @TODO Use "callback" to track successful shares. This will likely be in
+  // either a seperate module or a new version.
 
   $annotation = variable_get_value('easy_social_googleplus_annotation');
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
@@ -111,33 +112,31 @@ GP;
 }
 
 /**
- * Generate the needed markeup for the linkedin share link
+ * Generate the needed markeup for the linkedin share link.
+ *
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
  * @param $title The title to be shared
  * @return string the html markup
  */
 function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang = 'und') {
-  // this widget doesn't yet offer a localization option
-  // correct for different language identification strings
-//  if ($lang === 'en') {
-//    $lang = 'en_US';
-//  }
-  // @TODO use "data-onsuccess" to track successful shares
-  // this will likely be in either a seperate module or a new version
+  // This widget doesn't yet offer a localization option.
+  // @TODO Use "data-onsuccess" to track successful shares this will likely be
+  // in either a seperate module or a new version.
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
   $type_show = variable_get_value('easy_social_linkedin_count_show');
-  if (!$type_show) $type = FALSE;
+  if (!$type_show)
+    $type = FALSE;
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
 LI;
   return $markup;
 }
 
-
 /**
- * Generate the needed markup for the twitter share link
+ * Generate the needed markup for the twitter share link.
+ *
  * @param $url The url to be shared
  * @param $type Generate horizontal or vertical widgets
  * @param $title The title to be shared
@@ -145,14 +144,14 @@ LI;
  * @return string the html markup
  */
 function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'und') {
-
-  // correct for different language identification strings
+  // Correct for different language identification strings.
   $lang = _easy_social_twitter_langcodes($lang);
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
-  // Override the data-count attribute to hide the count, if selected
+  // Override the data-count attribute to hide the count, if selected.
   $type_show = variable_get_value('easy_social_twitter_count_show');
-  if (!$type_show) $type = 'none';
+  if (!$type_show)
+    $type = 'none';
 
   $account_via = variable_get_value('easy_social_twitter_account_via');
   $account_related = variable_get_value('easy_social_twitter_account_related');
@@ -171,331 +170,331 @@ TT;
 }
 
 /**
- * Twitter langcode
- * @param $lang The drupal langcode
- * @return string the respective supported langcode by twitter ISO 369
+ * Returns language for Twitter widget.
+ * Since this widget has very limited and specific language options, we have to
+ * manually map some Drupal to Twitter language conversions.
+ *
+ * @param $lang The drupal langcode.
+ * @return string the respective supported langcode by twitter ISO 369.
  */
-function _easy_social_twitter_langcodes($lang = 'und'){
+function _easy_social_twitter_langcodes($lang = LANGUAGE_NONE) {
   $languages = array();
 
-  // Undefined
-  $languages['und'] = 'en';
-
-  //Hungarian
+  // Hungarian.
   $languages['hu'] = 'hu';
 
-  //Norwegian
+  // Norwegian.
   $languages['nn'] = 'no';
   $languages['nb'] = 'no';
 
-  //Malay
+  // Malay.
   $languages['mg'] = 'msa';
   $languages['ms'] = 'msa';
   $languages['ml'] = 'msa';
 
-  //French
+  // French.
   $languages['fr'] = 'fr';
 
-  //German
+  // German.
   $languages['de'] = 'de';
   $languages['gsw-berne'] = 'de';
 
-  //English
+  // English.
+  $languages[LANGUAGE_NONE] = 'en';
   $languages['en'] = 'en';
   $languages['en-us'] = 'en';
   $languages['en-gb'] = 'en';
 
-  //Traditional Chinese
+  // Traditional Chinese.
   $languages['zh-hant'] = 'zh-tw';
 
-  //Filipino
+  // Filipino.
   $languages['fil'] = 'fil';
 
-  //Korean
+  // Korean.
   $languages['ko'] = 'ko';
 
-  //Polish
+  // Polish.
   $languages['pl'] = 'pl';
 
-  //Indonesian
+  // Indonesian.
   $languages['id'] = 'id';
 
-  //Russian
+  // Russian.
   $languages['ru'] = 'ru';
 
-  //Finnish
+  // Finnish.
   $languages['fi'] = 'fi';
 
-  //Hindi
+  // Hindi.
   $languages['hi'] = 'hi';
 
-  //Portuguese
+  // Portuguese.
   $languages['pt'] = 'pt';
   $languages['pt-br'] = 'pt';
   $languages['pt-pt'] = 'pt';
 
-  //Italian
+  // Italian.
   $languages['it'] = 'it';
 
-  //Danish
+  // Danish.
   $languages['da'] = 'da';
 
-  //Swedish
+  // Swedish.
   $languages['sv'] = 'sv';
 
-  //Spanish
+  // Spanish.
   $languages['es'] = 'es';
 
-  //Dutch
+  // Dutch.
   $languages['nl'] = 'nl';
 
-  //Simplified Chinese
+  // Simplified Chinese.
   $languages['zh-hans'] = 'zh-cn';
 
-  //Turkish
+  // Turkish.
   $languages['tr'] = 'tr';
   $languages['tk'] = 'tr';
 
-  //Japanese
+  // Japanese.
   $languages['ja'] = 'ja';
 
-  return (isset($languages[$lang]))?$languages[$lang]:'en';
-
+  return (isset($languages[$lang])) ? $languages[$lang] : 'en';
 }
 
 /**
- * Facebook langcode
+ * Facebook langcode.
+ * Since this widget has very limited and specific language options, we have to
+ * manually map some Drupal to Twitter language conversions.
+
  * @param $lang The drupal langcode
  * @return string the respective supported langcode by facebook II_CC
  */
-function _easy_social_facebook_langcodes($lang = 'und') {
+function _easy_social_facebook_langcodes($lang = LANGUAGE_NONE) {
   $languages = array();
 
-  // Undefined
-  $languages['und'] = 'en_US';
-
-  //Afrikaans
+  // Afrikaans.
   $languages['af'] = 'af_ZA';
 
-  //Arabic
+  // Arabic.
   $languages['ar'] = 'ar_AR';
 
-  //Azeri
+  // Azeri.
   $languages['az'] = 'az_AZ';
 
-  //Belarusian
+  // Belarusian.
   $languages['be'] = 'be_BY';
 
-  //Bulgarian
+  // Bulgarian.
   $languages['bg'] = 'bg_BG';
 
-  //Bengali
+  // Bengali.
   $languages['bn'] = 'bn_IN';
 
-  //Bosnian
+  // Bosnian.
   $languages['bs'] = 'bs_BA';
 
-  //Catalan
+  // Catalan.
   $languages['ca'] = 'ca_ES';
 
-  //Czech
+  // Czech.
   $languages['cs'] = 'cs_CZ';
 
-  //Welsh
+  // Welsh.
   $languages['cy'] = 'cy_GB';
 
-  //Danish
+  // Danish.
   $languages['da'] = 'da_DK';
 
-  //German
+  // German.
   $languages['de'] = 'de_DE';
   $languages['gsw-berne'] = 'de_DE';
 
-  //Greek
+  // Greek.
   $languages['el'] = 'el_GR';
 
-  //English (UK)
+  // English (UK).
   $languages['en-gb'] = 'en_GB';
 
-  //English (US)
+  // English (US).
+  $languages[LANGUAGE_NONE] = 'en_US';
   $languages['en'] = 'en_US';
   $languages['en-us'] = 'en_US';
 
-  //Esperanto
+  // Esperanto.
   $languages['eo'] = 'eo_EO';
 
-  //Spanish (Spain)
+  // Spanish (Spain).
   $languages['es'] = 'es_ES';
 
-  //Estonian
+  // Estonian.
   $languages['et'] = 'et_EE';
 
-  //Basque
+  // Basque.
   $languages['eu'] = 'eu_ES';
 
-  //Persian
+  // Persian.
   $languages['fa'] = 'fa_IR';
 
-  //Leet Speak
+  // Leet Speak.
   $languages['fb'] = 'fb_LT';
 
-  //Finnish
+  // Finnish.
   $languages['fi'] = 'fi_FI';
 
-  //Faroese
+  // Faroese.
   $languages['fo'] = 'fo_FO';
 
-  //French (France)
+  // French (France).
   $languages['fr'] = 'fr_FR';
 
-  //Frisian
+  // Frisian.
   $languages['fy'] = 'fy_NL';
 
-  //Irish
+  // Irish.
   $languages['ga'] = 'ga_IE';
 
-  //Galician
+  // Galician.
   $languages['gl'] = 'gl_ES';
 
-  //Hebrew
+  // Hebrew.
   $languages['he'] = 'he_IL';
 
-  //Hindi
+  // Hindi.
   $languages['hi'] = 'hi_IN';
 
-  //Croatian
+  // Croatian.
   $languages['hr'] = 'hr_HR';
 
-  //Hungarian
+  // Hungarian.
   $languages['hu'] = 'hu_HU';
 
-  //Armenian
+  // Armenian.
   $languages['hy'] = 'hy_AM';
 
-  //Indonesian
+  // Indonesian.
   $languages['id'] = 'id_ID';
 
-  //Icelandic
+  // Icelandic.
   $languages['is'] = 'is_IS';
 
-  //Italian
+  // Italian.
   $languages['it'] = 'it_IT';
 
-  //Japanese
+  // Japanese.
   $languages['ja'] = 'ja_JP';
 
-  //Georgian
+  // Georgian.
   $languages['ka'] = 'ka_GE';
 
-  //Khmer
+  // Khmer.
   $languages['km'] = 'km_KH';
 
-  //Korean
+  // Korean.
   $languages['ko'] = 'ko_KR';
 
-  //Kurdish
+  // Kurdish.
   $languages['ku'] = 'ku_TR';
 
-  //Latin
+  // Latin.
   $languages['la'] = 'la_VA';
 
-  //Lithuanian
+  // Lithuanian.
   $languages['lt'] = 'lt_LT';
 
-  //Latvian
+  // Latvian.
   $languages['lv'] = 'lv_LV';
 
-  //Macedonian
+  // Macedonian.
   $languages['mk'] = 'mk_MK';
 
-  //Malayalam
+  // Malayalam.
   $languages['ml'] = 'ml_IN';
 
-  //Malay
+  // Malay.
   $languages['ms'] = 'ms_MY';
   $languages['mg'] = 'ms_MY';
 
-  //Norwegian
+  // Norwegian.
   $languages['nn'] = 'nb_NO';
   $languages['nb'] = 'nb_NO';
 
-  //Nepali
+  // Nepali.
   $languages['ne'] = 'ne_NP';
 
-  //Dutch
+  // Dutch.
   $languages['nl'] = 'nl_NL';
 
-  //Norwegian (nynorsk)
+  // Norwegian (Nynorsk).
   $languages['nn'] = 'nn_NO';
 
-  //Punjabi
+  // Punjabi.
   $languages['pa'] = 'pa_IN';
 
-  //Polish
+  // Polish.
   $languages['pl'] = 'pl_PL';
 
-  //Pashto
+  // Pashto.
   $languages['ps'] = 'ps_AF';
 
-  //Portuguese (Brazil)
+  // Portuguese (Brazil).
   $languages['pt'] = 'pt_BR';
   $languages['pt-br'] = 'pt_BR';
 
-  //Portuguese (Portugal)
+  // Portuguese (Portugal).
   $languages['pt-pt'] = 'pt_PT';
 
-  //Romanian
+  // Romanian.
   $languages['ro'] = 'ro_RO';
 
-  //Russian
+  // Russian.
   $languages['ru'] = 'ru_RU';
 
-  //Slovak
+  // Slovak.
   $languages['sk'] = 'sk_SK';
 
-  //Slovenian
+  // Slovenian.
   $languages['sl'] = 'sl_SI';
 
-  //Albanian
+  // Albanian.
   $languages['sq'] = 'sq_AL';
 
-  //Serbian
+  // Serbian.
   $languages['sr'] = 'sr_RS';
 
-  //Swedish
+  // Swedish.
   $languages['sv'] = 'sv_SE';
 
-  //Swahili
+  // Swahili.
   $languages['sw'] = 'sw_KE';
 
-  //Tamil
+  // Tamil.
   $languages['ta'] = 'ta_IN';
 
-  //Telugu
+  // Telugu.
   $languages['te'] = 'te_IN';
 
-  //Thai
+  // Thai.
   $languages['th'] = 'th_TH';
 
-  //Filipino
+  // Filipino.
   $languages['tl'] = 'tl_PH';
 
-  //Turkish
+  // Turkish.
   $languages['tr'] = 'tr_TR';
   $languages['tk'] = 'tr_TR';
 
-  //Ukrainian
+  // Ukrainian.
   $languages['uk'] = 'uk_UA';
 
-  //Vietnamese
+  // Vietnamese.
   $languages['vi'] = 'vi_VN';
 
-  //Simplified Chinese (China)
+  // Simplified Chinese (China).
   $languages['zh-hans'] = 'zh_CN';
 
-  //Traditional Chinese (Taiwan)
+  // Traditional Chinese (Taiwan).
   $languages['zh-hant'] = 'zh_TW';
 
   return (isset($languages[$lang])) ? $languages[$lang] : 'en_US';
-
 }
