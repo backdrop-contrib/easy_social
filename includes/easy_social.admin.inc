@@ -185,6 +185,12 @@ function easy_social_admin_config_extra_twitter() {
     '#default_value' => variable_get_value('easy_social_twitter_account_description'),
   );
 
+  $form['easy_social_twitter_count_show'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display the count bubble'),
+    '#default_value' => variable_get_value('easy_social_twitter_count_show'),
+  );
+
   return system_settings_form($form);
 }
 
@@ -201,6 +207,10 @@ function easy_social_admin_config_extra_facebook() {
 
   $form['easy_social_facebook_info'] = array(
     '#markup' => t('For more information check out the official Facebook widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'http://developers.facebook.com/docs/reference/plugins/like/')),
+  );
+
+  $form['easy_social_facebook_info_count'] = array(
+    '#markup' => '<p>' . t('To hide the count: the Facebook API does not provide an option to hide the count bubble - the best workaround is to reduce the Horizontal Widget Width below (using Like verb: 50px) but this only works in horizontal display mode.') . '</p>',
   );
 
   $form['easy_social_facebook_appid'] = array(
@@ -322,6 +332,10 @@ function easy_social_admin_config_extra_googleplus() {
     '#markup' => t('For more information check out the official Google+ widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'http://www.google.com/intl/en/webmasters/+1/button/index.html')),
   );
 
+  $form['easy_social_googleplus_info_count'] = array(
+    '#markup' => '<p>' . t('To hide the count: set Annotation to None.') . '</p>',
+  );
+
   $form['easy_social_googleplus_annotation'] = array(
     '#type' => 'select',
     '#title' => t('Annotation'),
@@ -341,6 +355,26 @@ function easy_social_admin_config_extra_googleplus() {
     '#default_value' => variable_get_value('easy_social_googleplus_html5'),
   );
 
+  return system_settings_form($form);
+}
+
+/**
+ * Form callback
+ * Extra settings for LinkedIn Widget
+ */
+function easy_social_admin_config_extra_linkedin() {
+  $form = array();
+  $form['easy_social_linkedin_title'] = array(
+    '#markup' => '<h4>' . t('LinkedIn widget settings') . '</h4>',
+  );
+  $form['easy_social_linkedin_info'] = array(
+    '#markup' => t('For more information check out the official LinkedIn widget <a href="!link" target="_blank">documentation</a>.', array('!link' => 'https://developer.linkedin.com/share-plugin')),
+  );
+  $form['easy_social_linkedin_count_show'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display the count bubble'),
+    '#default_value' => variable_get_value('easy_social_linkedin_count_show'),
+  );
   return system_settings_form($form);
 }
 

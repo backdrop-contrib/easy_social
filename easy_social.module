@@ -151,6 +151,16 @@ function easy_social_menu() {
     'file' => 'includes/easy_social.admin.inc',
   );
 
+  $items['admin/config/content/easy_social/widget-extra/linkedin'] = array(
+    'title' => 'LinkedIn',
+    'description' => 'Extra settings for LinkedIn',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easy_social_admin_config_extra_linkedin'),
+    'access arguments' => array('administer easy social'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/easy_social.admin.inc',
+  );
+
   return $items;
 }
 
@@ -289,6 +299,12 @@ function easy_social_variable_info() {
     'group' => 'easy_social',
     'token' => FALSE,
   );
+  $variables['easy_social_twitter_count_show'] = array(
+    'title' => t('Easy Social Global Twitter Show Count option'),
+    'default' => 1,
+    'group' => 'easy_social',
+    'token' => FALSE,
+  );
 
   // custom settings for facebook
   $variables['easy_social_facebook_appid'] = array(
@@ -365,6 +381,14 @@ function easy_social_variable_info() {
   $variables['easy_social_googleplus_html5'] = array(
     'title' => t('HTML5 valid syntax'),
     'default' => TRUE,
+    'group' => 'easy_social',
+    'token' => FALSE,
+  );
+
+  // custom settings for linkedin
+  $variables['easy_social_linkedin_count_show'] = array(
+    'title' => t('Easy Social Global LinkedIn Show Count option'),
+    'default' => 1,
     'group' => 'easy_social',
     'token' => FALSE,
   );

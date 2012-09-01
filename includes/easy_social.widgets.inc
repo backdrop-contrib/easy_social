@@ -127,6 +127,8 @@ function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang =
   // this will likely be in either a seperate module or a new version
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
+  $type_show = variable_get_value('easy_social_linkedin_count_show');
+  if (!$type_show) $type = FALSE;
   $markup = <<<LI
 <script type="in/share" data-url="{$url}" data-counter="{$type}"></script>
 LI;
@@ -148,6 +150,9 @@ function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 
   $lang = _easy_social_twitter_langcodes($lang);
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
+  // Override the data-count attribute to hide the count, if selected
+  $type_show = variable_get_value('easy_social_twitter_count_show');
+  if (!$type_show) $type = 'none';
 
   $account_via = variable_get_value('easy_social_twitter_account_via');
   $account_related = variable_get_value('easy_social_twitter_account_related');
