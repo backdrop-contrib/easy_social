@@ -631,7 +631,7 @@ function easy_social_block_view($delta = '') {
   // Use current page' url and title.
   $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
   $url = url($path, array('absolute' => TRUE));
-  $title = drupal_get_title();
+  $title = variable_get('site_name');
 
   for ($i = 1; $i <= $num_blocks; ++$i) {
     if ($delta === "easy_social_block_{$i}") {
@@ -639,6 +639,25 @@ function easy_social_block_view($delta = '') {
       if (variable_get_value("easy_social_block_{$i}_override")) {
         $type = variable_get_value("easy_social_block_{$i}_type");
         $enabled_widgets = variable_get_value("easy_social_block_{$i}_widgets");
+        //Overwritten urls
+        $url = array();
+        foreach ($enabled_widgets as $en_widgets) {
+          if((bool)$en_widgets !== FALSE){
+            $url[$en_widgets] = variable_get("easy_social_block_{$i}_url_{$en_widgets}", "[current-path]");
+            //Empty URL or current path
+            if(empty($url[$en_widgets]) || trim($url[$en_widgets]) == '[current-path]') {
+              $url[$en_widgets] = url($path, array('absolute' => TRUE));
+            } else
+            //Base URL
+            if(trim($url[$en_widgets]) == '[base-url]') {
+              $url[$en_widgets] = url('<front>', array('absolute' => TRUE));
+            } else
+            //Internal path
+            if(!valid_url($url[$en_widgets], TRUE)) {
+              $url[$en_widgets] = url($url[$en_widgets], array('absolute' => TRUE));
+            }
+          } 
+        }
       }
       else {
         $type = $enabled_widgets = NULL;
@@ -748,7 +767,8 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
 
       // Finally, add widget markup.
       if (isset($widgets[$service]['markup'])) {
-        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $url, $type, $title, $lang);
+        $widget_url = (is_array($url)) ? $url[$service] : $url;
+        $widget_links[$service] = call_user_func($widgets[$service]['markup'], $widget_url, $type, $title, $lang);
       }
     }
 

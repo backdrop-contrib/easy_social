@@ -108,6 +108,29 @@ function easy_social_admin_config_main() {
       '#options' => $options,
       '#default_value' => _easy_social_variable_get_value("easy_social_block_{$i}_widgets"),
     );
+ 
+    $form['block_settings']["easy_social_block_{$i}"]['override']['urls'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Custom URLs for this block'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+ 
+    $widgets_block = _easy_social_variable_get_value("easy_social_block_{$i}_widgets");
+ 
+    //Not using variable_get_value because of a problem in accessing all the widgets available 
+    //with easy_social_get_widgets in the implementation of hook_variable_info
+    foreach ($widgets_block as $widget_block) {
+      if((bool)$widget_block !== FALSE){
+        $form['block_settings']["easy_social_block_{$i}"]['override']['urls']["easy_social_block_{$i}_url_{$widget_block}"] = array(
+          '#type' => 'textfield',
+          '#title' => t('Custom URL for widget !widget', array('!widget' => $widget_block)),
+          '#description' => t("Leave this blank or [current-path] for the current path, [base-url] for the base url, or place an internal drupal path, or even a full external URL e.g. http://external.com/myurl"),
+          '#maxlength' => 255,
+          '#default_value' => variable_get("easy_social_block_{$i}_url_{$widget_block}", "[current-path]"),
+        );
+      }
+    }
   }
 
   return system_settings_form($form);
