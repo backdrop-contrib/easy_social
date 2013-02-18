@@ -416,7 +416,9 @@ function easy_social_admin_summary() {
   $widget_list = array();
 
   foreach ($widgets as $widget) {
-    $widget_list[] = $widget_info[$widget]['name'];
+    if ((bool)$widget !== FALSE) {
+      $widget_list[] = $widget_info[$widget]['name'];
+    }
   }
 
   $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
@@ -451,7 +453,9 @@ function easy_social_admin_summary() {
       $widget_list = array();
 
       foreach ($widgets as $widget) {
-        $widget_list[] = $widget_info[$widget]['name'];
+        if ((bool)$widget !== FALSE) {
+          $widget_list[] = $widget_info[$widget]['name'];
+        }
       }
 
       $widget_list = theme('item_list', array('items' => $widget_list, 'type' => 'ol'));
