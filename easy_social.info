@@ -1,5 +1,5 @@
 name = Easy Social
-description = Simple module that adds share buttons to nodes. The most common ones are included by defauly and any module can define others.
+description = Simple module that adds share buttons to nodes. The most common ones are included by default and any module can define others.
 package = Other
 core = 7.x
 configure = admin/config/content/easysocial
