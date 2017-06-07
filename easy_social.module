@@ -639,6 +639,16 @@ function easy_social_block_view($delta = '') {
       if (variable_get_value("easy_social_block_{$i}_override")) {
         $type = variable_get_value("easy_social_block_{$i}_type");
         $enabled_widgets = variable_get_value("easy_social_block_{$i}_widgets");
+
+        if (variable_get_value("easy_social_block_{$i}_share_title")) {
+          $title_string = variable_get_value("easy_social_block_{$i}_share_title");
+          $node = menu_get_object();
+
+          if (is_object($node) && is_numeric($node->nid)) {
+            $title = token_replace($title_string, array('node' => $node));
+          }
+        }
+
         //Overwritten urls
         $url = array();
         foreach ($enabled_widgets as $en_widgets) {
