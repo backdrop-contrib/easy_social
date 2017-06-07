@@ -636,7 +636,12 @@ function easy_social_block_view($delta = '') {
 
   // Use current page' url and title.
   $path = isset($_GET['q']) ? $_GET['q'] : '<front>';
-  $url = url($path, array('absolute' => TRUE));
+
+  $url = url($path, array(
+    'absolute' => TRUE,
+    'query' => drupal_get_query_parameters()
+  ));
+
   $title = variable_get('site_name');
 
   for ($i = 1; $i <= $num_blocks; ++$i) {
