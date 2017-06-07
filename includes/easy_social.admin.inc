@@ -683,4 +683,7 @@ function easy_social_admin_wizard_submit($form, &$form_state) {
   foreach ($form_state['values']['easy_social_types'] as $name => $value) {
     variable_set($name, $value);
   }
+
+  // Display a message to the user.
+  drupal_set_message(t('The configuration options have been saved.'));
 }
