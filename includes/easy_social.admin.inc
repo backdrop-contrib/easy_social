@@ -613,6 +613,9 @@ function easy_social_admin_order_submit($form, &$form_state) {
   ksort($order);
   $order = array_values($order);
   variable_set('easy_social_global_order', $order);
+
+  // Display a message to the user.
+  drupal_set_message(t('The configuration options have been saved.'));
 }
 
 /**
