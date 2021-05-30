@@ -27,7 +27,7 @@ function hook_easy_social_widget() {
       ),
       'styles' => array(
         array(
-          'path' => drupal_get_path('module', 'easy_social') . '/css/easy_social_twitter.css', // CSS include, if any.
+          'path' => backdrop_get_path('module', 'easy_social') . '/css/easy_social_twitter.css', // CSS include, if any.
           'type' => 'external', // Type of include: 'external', 'module' or 'inline', defaults to 'external'.
         ),
       ),

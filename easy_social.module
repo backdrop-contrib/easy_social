@@ -75,7 +75,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social'] = array(
     'title' => 'Easy Social Settings',
     'description' => 'Configure the social buttons and node types',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_main'),
     'access arguments' => array('administer easy social'),
     'file' => 'easy_social.admin.inc',
@@ -84,7 +84,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social_wizard'] = array(
     'title' => 'Easy Social Wizard',
     'description' => 'Quickly enable Easy Social for your Content Types',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_wizard'),
     'access arguments' => array('use easy social wizard'),
     'file' => 'easy_social.admin.inc',
@@ -99,7 +99,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/order'] = array(
     'title' => 'Widget Order',
     'description' => 'Easy Social Widget Order',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_order'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -110,7 +110,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/ignore-paths'] = array(
     'title' => 'Ignore Paths',
     'description' => 'Global paths to ignore and do not display Easy Social',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_ignore_paths'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -121,7 +121,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/widget-extra'] = array(
     'title' => 'Extra Widgets',
     'description' => 'Extra settings for widgets',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_extra'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -132,7 +132,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/summary'] = array(
     'title' => 'Summary',
     'description' => 'Easy Social Summary',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_summary'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -148,7 +148,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/widget-extra/facebook'] = array(
     'title' => 'Facebook',
     'description' => 'Extra settings for Facebook',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_extra_facebook'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -159,7 +159,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/widget-extra/twitter'] = array(
     'title' => 'Twitter',
     'description' => 'Extra settings for Twitter',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_extra_twitter'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -170,7 +170,7 @@ function easy_social_menu() {
   $items['admin/config/content/easy_social/widget-extra/linkedin'] = array(
     'title' => 'LinkedIn',
     'description' => 'Extra settings for LinkedIn',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('easy_social_admin_config_extra_linkedin'),
     'access arguments' => array('administer easy social'),
     'type' => MENU_LOCAL_TASK,
@@ -403,7 +403,7 @@ function easy_social_block_info() {
   for ($i = 1; $i <= $num_blocks; ++$i) {
     $return["easy_social_block_{$i}"] = array(
       'info' => t('Easy Social Block !num', array('!num' => $i)),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
+      'cache' => BACKDROP_CACHE_PER_PAGE,
     );
   }
 
@@ -422,7 +422,7 @@ function easy_social_block_view($delta = '') {
 
   $url = url($path, array(
     'absolute' => TRUE,
-    'query' => drupal_get_query_parameters()
+    'query' => backdrop_get_query_parameters()
   ));
 
   $title = config_get('system.core', 'site_name');
@@ -515,7 +515,7 @@ function _easy_social_page_ignore() {
  */
 function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widgets = NULL, $lang = 'en') {
   $config = config('easy_social.settings');
-  backdrop_add_css(drupal_get_path('module', 'easy_social') . '/css/easy_social.css');
+  backdrop_add_css(backdrop_get_path('module', 'easy_social') . '/css/easy_social.css');
 
   if (!_easy_social_page_ignore()) {
     // If settings aren't passed, fallback to defaults.
@@ -549,10 +549,10 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
         foreach ($widgets[$service]['scripts'] as $script) {
           $script_type = (isset($script['type'])) ? $script['type'] : 'external';
           if ($script_type !== 'module') {
-            drupal_add_js($script['path'], $script_type);
+            backdrop_add_js($script['path'], $script_type);
           }
           else {
-            drupal_add_js($script['path']);
+            backdrop_add_js($script['path']);
           }
         }
       }
@@ -562,10 +562,10 @@ function _easy_social_render_widgets($url, $title, $type = NULL, $enabled_widget
         foreach ($widgets[$service]['styles'] as $style) {
           $style_type = (isset($style['type'])) ? $style['type'] : 'external';
           if ($style_type !== 'module') {
-            drupal_add_css($style['path'], $style_type);
+            backdrop_add_css($style['path'], $style_type);
           }
           else {
-            drupal_add_css($style['path']);
+            backdrop_add_css($style['path']);
           }
         }
       }

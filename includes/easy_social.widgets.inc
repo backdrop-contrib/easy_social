@@ -60,7 +60,7 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 JS;
-      drupal_add_js($script, 'inline');
+      backdrop_add_js($script, 'inline');
       $js_added = TRUE;
     }
   }
@@ -76,8 +76,8 @@ FB;
 FB;
   }
   else {
-    $url = drupal_encode_path($url);
-    $font = drupal_encode_path($font);
+    $url = backdrop_encode_path($url);
+    $font = backdrop_encode_path($font);
 
     $markup = <<<FB
 <iframe src="//www.facebook.com/plugins/like.php?locale={$lang}&amp;href={$url}&amp;send=false&amp;layout={$type_box}&amp;width={$width}&amp;show_faces={$show_faces}&amp;action={$action}&amp;colorscheme={$color_scheme}&amp;font={$font}&amp;height={$height}&amp;appId={$appid}" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:{$width}px; height:{$height}px;" allowTransparency="true"></iframe>

@@ -24,7 +24,7 @@ function theme_easy_social_admin_order($variables) {
     $rows[] = array('data' => $data, 'class' => array('draggable'));
   }
 
-  drupal_add_tabledrag($table_id, 'order', 'sibling', 'weight_group');
+  backdrop_add_tabledrag($table_id, 'order', 'sibling', 'weight_group');
 
   $output .= theme('table', array(
     'header' => $header,
