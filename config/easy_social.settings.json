@@ -1,0 +1,29 @@
+{
+    "_config_name": "easy_social.settings",
+    "easy_social_global_order": [
+        "facebook",
+        "twitter",
+        "linkedin"
+    ],
+    "easy_social_global_type": "0",
+    "easy_social_global_widgets": {
+        "facebook": "facebook",
+        "linkedin": "linkedin",
+        "twitter": "twitter"
+    },
+    "easy_social_block_count": "1",
+    "easy_social_ignore_paths": "admin/*",
+    "easy_social_twitter_account_via": "",
+    "easy_social_twitter_account_related": "",
+    "easy_social_twitter_account_description": "",
+    "easy_social_twitter_count_show": 0,
+    "easy_social_facebook_widget_type": "html5",
+    "easy_social_facebook_width_vertical": "50",
+    "easy_social_facebook_width_horizontal": "50",
+    "easy_social_facebook_show_faces": 0,
+    "easy_social_facebook_verb": "like",
+    "easy_social_facebook_color_scheme": "light",
+    "easy_social_facebook_font": "default",
+    "easy_social_facebook_appid": "",
+    "easy_social_facebook_send_button": 0
+}

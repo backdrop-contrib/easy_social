@@ -14,6 +14,7 @@
  * @return string the html markup
  */
 function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang = 'en') {
+  $config = config('easy_social.settings');
   // Correct for different language identification strings.
   $lang = _easy_social_facebook_langcodes($lang);
   static $js_added;
@@ -23,24 +24,24 @@ function _easy_social_widget_facebook_markup($url, $type, $title = NULL, $lang =
   // or a new version.
 
   if ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) {
-    $width = variable_get_value('easy_social_facebook_width_horizontal');
+    $width = $config->get('easy_social_facebook_width_horizontal');
     $type_box = 'button_count';
     $height = '21';
   }
   else {
-    $width = variable_get_value('easy_social_facebook_width_vertical');
+    $width = $config->get('easy_social_facebook_width_vertical');
     $type_box = 'box_count';
     $height = '90';
   }
 
-  $appid = variable_get_value('easy_social_facebook_appid');
-  $facebook_type = variable_get_value('easy_social_facebook_widget_type');
-  $send_button = variable_get_value('easy_social_facebook_send_button') ? 'true'
+  $appid = $config->get('easy_social_facebook_appid');
+  $facebook_type = $config->get('easy_social_facebook_widget_type');
+  $send_button = $config->get('easy_social_facebook_send_button') ? 'true'
       : 'false';
-  $show_faces = variable_get_value('easy_social_facebook_show_faces') ? 'true' : 'false';
-  $action = variable_get_value('easy_social_facebook_verb');
-  $color_scheme = variable_get_value('easy_social_facebook_color_scheme');
-  $font = variable_get_value('easy_social_facebook_font');
+  $show_faces = $config->get('easy_social_facebook_show_faces') ? 'true' : 'false';
+  $action = $config->get('easy_social_facebook_verb');
+  $color_scheme = $config->get('easy_social_facebook_color_scheme');
+  $font = $config->get('easy_social_facebook_font');
 
   if ($font === 'default') {
     $font = '';
@@ -86,36 +87,6 @@ FB;
 }
 
 /**
- * Generate the needed markeup for the Google+ share link.
- *
- * @param $url The url to be shared
- * @param $type Generate horizontal or vertical widgets
- * @param $title The title to be shared
- * @return string the html markup
- */
-function _easy_social_widget_googleplus_markup($url, $type, $title = NULL, $lang = 'und') {
-  // This widget doesn't yet offer a localization option.
-  // @TODO Use "callback" to track successful shares. This will likely be in
-  // either a seperate module or a new version.
-
-  $annotation = variable_get_value('easy_social_googleplus_annotation');
-  $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'medium' : 'tall';
-  $html5 = variable_get_value('easy_social_googleplus_html5');
-
-  if ($html5) {
-    $markup = <<<GP
-<div class="g-plusone" data-size="{$type}" data-annotation="{$annotation}" data-href="{$url}"></div>
-GP;
-  }
-  else {
-    $markup = <<<GP
-<g:plusone size="{$type}" href="{$url}" annotation="{$annotation}"></g:plusone>
-GP;
-  }
-  return $markup;
-}
-
-/**
  * Generate the needed markeup for the linkedin share link.
  *
  * @param $url The url to be shared
@@ -129,7 +100,7 @@ function _easy_social_widget_linkedin_markup($url, $type, $title = NULL, $lang =
   // in either a seperate module or a new version.
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'right' : 'top';
-  $type_show = variable_get_value('easy_social_linkedin_count_show');
+  $type_show = config_get('easy_social.settings', 'easy_social_linkedin_count_show');
   if (!$type_show)
     $type = FALSE;
   $markup = <<<LI
@@ -148,18 +119,19 @@ LI;
  * @return string the html markup
  */
 function _easy_social_widget_twitter_markup($url, $type, $title = NULL, $lang = 'und') {
+  $config = config('easy_social.settings');
   // Correct for different language identification strings.
   $lang = _easy_social_twitter_langcodes($lang);
 
   $type = ($type == EASY_SOCIAL_WIDGET_HORIZONTAL) ? 'horizontal' : 'vertical';
   // Override the data-count attribute to hide the count, if selected.
-  $type_show = variable_get_value('easy_social_twitter_count_show');
+  $type_show = $config->get('easy_social_twitter_count_show');
   if (!$type_show)
     $type = 'none';
 
-  $account_via = variable_get_value('easy_social_twitter_account_via');
-  $account_related = variable_get_value('easy_social_twitter_account_related');
-  $account_related_description = variable_get_value('easy_social_twitter_account_description');
+  $account_via = $config->get('easy_social_twitter_account_via');
+  $account_related = $config->get('easy_social_twitter_account_related');
+  $account_related_description = $config->get('easy_social_twitter_account_description');
 
   $markup = <<<TT
 <a href="http://twitter.com/share" class="twitter-share-button"
@@ -270,7 +242,7 @@ function _easy_social_twitter_langcodes($lang = LANGUAGE_NONE) {
  * Facebook langcode.
  * Since this widget has very limited and specific language options, we have to
  * manually map some Drupal to Twitter language conversions.
-
+ *
  * @param $lang The drupal langcode
  * @return string the respective supported langcode by facebook II_CC
  */
