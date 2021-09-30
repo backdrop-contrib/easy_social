@@ -704,7 +704,6 @@ function _easy_social_get_options() {
     $widgets = easy_social_get_widgets();
     $order = config_get('easy_social.settings', 'easy_social_global_order');
     $ordered_widgets = array();
-
     if (is_array($order)) {
       foreach ($order as $key) {
         $ordered_widgets[$key] = $widgets[$key];
