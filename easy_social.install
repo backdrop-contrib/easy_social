@@ -20,17 +20,26 @@ function easy_social_update_1000(&$sandbox) {
     ->condition('name', db_like('easy_social_') . '%', 'LIKE')
     ->execute();
 
+  // Get all easy social variables.
   module_load_include('inc', 'easy_social', 'easy_social.variable');
   $variable_info = easy_social_variable_info();
 
-  $config = config('easy_social.settings');
+  // Pull values saved in D7 and merge them.
   foreach ($result as $row) {
-    $default = NULL;
-    if (isset($variable_info[$row->name])) {
-      $default = $variable_info[$row->name]['default'];
+    $default = $variable_info[$row->name]['default'];
+    if ($value = update_variable_get($row->name, $default)) {
+      $variable_info[$row->name]['default'] = $value;
+      // Delete D7 variables.
+      variable_del($row->name);
     }
-    $value = update_variable_get($row->name, $default);
-    $config->set($row->name, $value);
   }
+
+  // Save all values as config.
+  $config = config('easy_social.settings');
+  foreach ($variable_info as $key => $info) {
+    $default = $variable_info[$key]['default'];
+    $config->set($key, $default);
+  }
+
   $config->save();
 }
