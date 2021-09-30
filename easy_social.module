@@ -705,8 +705,13 @@ function _easy_social_get_options() {
     $order = config_get('easy_social.settings', 'easy_social_global_order');
     $ordered_widgets = array();
 
-    foreach ($order as $key) {
-      $ordered_widgets[$key] = $widgets[$key];
+    if (is_array($order)) {
+      foreach ($order as $key) {
+        $ordered_widgets[$key] = $widgets[$key];
+      }
+    }
+    else {
+      $ordered_widgets = $widgets;
     }
 
     $options = array();
@@ -715,7 +720,6 @@ function _easy_social_get_options() {
       $options[$k] = isset($widget['name']) ? $widget['name'] : $k;
     }
   }
-
   return $options;
 }
 
