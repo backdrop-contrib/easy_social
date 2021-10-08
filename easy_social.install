@@ -15,30 +15,44 @@ function easy_social_enable() {
  * Implements hook_update().
  */
 function easy_social_update_1000(&$sandbox) {
-  $result = db_select('variable', 'v')
-    ->fields('v', array('name'))
-    ->condition('name', db_like('easy_social_') . '%', 'LIKE')
-    ->execute();
-
   // Get all easy social variables.
   module_load_include('inc', 'easy_social', 'easy_social.variable');
   $variable_info = easy_social_variable_info();
 
   // Pull values saved in D7 and merge them.
+  $result = db_select('variable', 'v')
+    ->fields('v', array('name'))
+    ->condition('name', db_like('easy_social_') . '%', 'LIKE')
+    ->execute();
+
+  $others = array();
   foreach ($result as $row) {
-    $default = $variable_info[$row->name]['default'];
-    if ($value = update_variable_get($row->name, $default)) {
-      $variable_info[$row->name]['default'] = $value;
-      // Delete D7 variables.
-      variable_del($row->name);
+    if (!isset($variable_info[$row->name])) {
+      $others[] = $row;
+    }
+    else {
+      $default = $variable_info[$row->name]['default'];
+      if ($value = update_variable_get($row->name, $default)) {
+        $variable_info[$row->name]['default'] = $value;
+        // Delete D7 variables.
+        variable_del($row->name);
+      }
     }
   }
 
-  // Save all values as config.
+  // Save all variable values as config.
   $config = config('easy_social.settings');
   foreach ($variable_info as $key => $info) {
-    $default = $variable_info[$key]['default'];
-    $config->set($key, $default);
+    $value = $variable_info[$key]['default'];
+    $config->set($key, $value);
+  }
+
+  // Save all other values as config too.
+  foreach ($others as $row)  {
+    $value = update_variable_get($row->name, NULL);
+    $config->set($row->name, $value);
+    // Delete D7 variables.
+    variable_del($row->name);
   }
 
   $config->save();
