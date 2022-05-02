@@ -232,7 +232,7 @@ function easy_social_field_extra_fields() {
 
       // Field display for comments.
       if (module_exists('comment') && $config->get("easy_social_{$type}_enable")) {
-        if (variable_get_value("easy_social_comment_{$type}_enable")) {
+        if (_easy_social_variable_get_value("easy_social_comment_{$type}_enable")) {
           $extra['comment']['comment_node_' . $type] = array(
             'display' => array(
               'easy_social' => array(

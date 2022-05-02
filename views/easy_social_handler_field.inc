@@ -37,7 +37,7 @@ class easy_social_handler_field extends views_handler_field {
     $url = url('node/'.$node->nid, array('absolute' => TRUE)); // absolute url
 
     // Check if Easy Social is enabled for this content type.
-    if (variable_get_value("easy_social_{$node->type}_enable")) {
+    if (_easy_social_variable_get_value("easy_social_{$node->type}_enable")) {
       $type = $this->options['easy_social_type'];
       $enabled_widgets = $this->options['easy_social_widgets'];
       $widgets = _easy_social_render_widgets($url, $node->title, $type, $enabled_widgets, $node->language);
@@ -51,7 +51,7 @@ class easy_social_handler_field extends views_handler_field {
   function option_definition() {
     $options = parent::option_definition();
     $options['easy_social_type'] = array('default' => EASY_SOCIAL_WIDGET_HORIZONTAL);
-    $options['easy_social_widgets'] = array('default' => variable_get_value('easy_social_global_widgets'));
+    $options['easy_social_widgets'] = array('default' => _easy_social_variable_get_value('easy_social_global_widgets'));
     return $options;
   }
 
